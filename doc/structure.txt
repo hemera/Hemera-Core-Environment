@@ -1,0 +1,17 @@
+lib, config, modules, log
+
+lib:
+all the lib jars for all modules.
+
+config:
+ham file.
+
+modules:
+each module will have a folder
+
+log:
+log files.
+
+module folder:
+module jar, module config file (optional)
+The folder and jar file both use the fully qualified class name as name.
