@@ -19,9 +19,60 @@ and conform to REST principles.
 4. Provide complete application packaging, deployment and hosting solutions.
 5. Modular design to allow extensions and individual project usages.
 
+### Core Concepts
+
+#### Runtime
+
+Hemera runtime is the application hosting environment. It is run in a daemon process
+of the Java VM. The runtime provides various system level services such as the
+connection listener, connection handler and execution service. All the hosted
+applications are run within this JVM process. The runtime can be controlled
+via hemera commands and the runtime handle injected to hosted application modules.
+
+#### Connection Listener and Handler
+
+Connection listener and handler is a system level service that you won't need to
+interact typically. If you are curious on what they do and how they work, read on.
+Otherwise, move on to the next section :) A connection listener is provided by
+the runtime to accept incoming connections. When a new connection is established,
+a connection handler is created to provide dedicated handling of that connection.
+The connection handler properly routes requests to their corresponding modules
+and processors for processing. This system level is implemented with high
+concurrency to allow highly concurrent client request handling. This design
+allows the server to handle a large number of clients concurrently, while providing
+high throughput.
+
+#### Execution Service
+
+#### Application
+
+A Hemera application is composed of a set of modules, each representing a REST
+resource that can be accessed via Http or Https protocols. An application hosted
+by the Hemera platform is defined by its Hemera Bundle Model (hbm) file described
+below.
+
+#### Application Module
+
+A Hemera application module is a direct representation of an application REST
+resource. It is composed of a set of processors that provides the logic to
+interact with the resource and may contain state information of the resource.
+
+#### Processor
+
+A processor encapsulates a set of logic operations that provides the means to interact
+with an application REST resource, a module. This is where all of your application
+logic should be encapsulated. A processor must belong to a specific module.
+
+#### Hemera Commands
+
+Hemera exports its binary path to your shell profile that is accessable to all
+user accounts in your server OS. Similar to Maven, you can run Hemera commands
+by executing "hemera COMMAND ARGUMENTS" in a terminal. Arguments to a command
+should be separated by the space character.
+
 ### Installation
 
-1. Download a release from here: 
+1. Download a release from here: TODO
 2. Unzip the downloaded release anywhere on your system.
 3. Open a terminal and cd to the unzipped directory.
 4. Run "./hemera install YOUR_DISIRED_HEMERA_HOME_DIRECTORY"
@@ -34,6 +85,8 @@ allow the newly exported path to take effect.
 1. Open a terminal and run "hemera uninstall"
 2. Follow the instructions: run "source /etc/profile" or restart shell session to
 remove the hemera path.
+
+### Start Runtime
 
 
 # Hemera - Core Environme
