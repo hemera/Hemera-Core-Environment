@@ -1,7 +1,7 @@
 # Hemera
 Created by **Yi Wang (Neakor)**
 
-### Introdction
+## Introdction
 
 Hemera is a high-performance, lightweight, RESTful consumer server application
 development platform based on the Java SE platform. It aims to help consumer
@@ -10,7 +10,7 @@ without having to worry about the low level system details. Hemera provides
 guidences and enforcements to application server architecture through its
 application extension interface, to help improve mainability and scalability.
 
-### Design Requirements, Features and Principles
+## Design Requirements, Features and Principles
 
 1. Provide high throughput, high concurrency and high scalability.
 2. Extremely easy to use to develop RESTful consumer application server.
@@ -19,9 +19,9 @@ and conform to REST principles.
 4. Provide complete application packaging, deployment and hosting solutions.
 5. Modular design to allow extensions and individual project usages.
 
-### Core Concepts
+## Core Concepts
 
-#### Runtime
+### Runtime
 
 Hemera runtime is the application hosting environment. It is run in a daemon process
 of the Java VM. The runtime provides various system level services such as the
@@ -29,7 +29,7 @@ connection listener, connection handler and execution service. All the hosted
 applications are run within this JVM process. The runtime can be controlled
 via hemera commands and the runtime handle injected to hosted application modules.
 
-#### Connection Listener and Handler
+### Connection Listener and Handler
 
 Connection listener and handler is a system level service that you won't need to
 interact typically. If you are curious on what they do and how they work, read on.
@@ -42,28 +42,28 @@ concurrency to allow highly concurrent client request handling. This design
 allows the server to handle a large number of clients concurrently, while providing
 high throughput.
 
-#### Execution Service
+### Execution Service
 
-#### Application
+### Application
 
 A Hemera application is composed of a set of modules, each representing a REST
 resource that can be accessed via Http or Https protocols. An application hosted
 by the Hemera platform is defined by its Hemera Bundle Model (hbm) file described
 below.
 
-#### Application Module
+### Application Module
 
 A Hemera application module is a direct representation of an application REST
 resource. It is composed of a set of processors that provides the logic to
 interact with the resource and may contain state information of the resource.
 
-#### Processor
+### Processor
 
 A processor encapsulates a set of logic operations that provides the means to interact
 with an application REST resource, a module. This is where all of your application
 logic should be encapsulated. A processor must belong to a specific module.
 
-#### Hemera Commands
+## Hemera Commands
 
 Hemera exports its binary path to your shell profile that is accessable to all
 user accounts in your server OS. Similar to Maven, you can run Hemera commands
