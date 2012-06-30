@@ -103,7 +103,7 @@ remove the hemera path.
 ### Start Runtime
 TODO
 
-# Hemera - Core Environme
+# Hemera - Core Environment
 
 **Hemera - Core Environment** provides the access to various system
 functionalities including platform installation and un-installation, runtime
