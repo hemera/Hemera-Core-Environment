@@ -1,7 +1,7 @@
 # Hemera
 Created by **Yi Wang (Neakor)**
 
-###Introdction
+### Introdction
 
 Hemera is a high-performance, lightweight, RESTful consumer server application
 development platform based on the Java SE platform. It aims to help consumer
@@ -10,7 +10,7 @@ without having to worry about the low level system details. Hemera provides
 guidences and enforcements to application server architecture through its
 application extension interface, to help improve mainability and scalability.
 
-###Design Requirements, Features and Principles
+### Design Requirements, Features and Principles
 
 1. Provide high throughput, high concurrency and high scalability.
 2. Extremely easy to use to develop RESTful consumer application server.
@@ -19,13 +19,22 @@ and conform to REST principles.
 4. Provide complete application packaging, deployment and hosting solutions.
 5. Modular design to allow extensions and individual project usages.
 
-###Installation
+### Installation
 
 1. Download a release from here: 
 2. Unzip the downloaded release anywhere on your system.
-3. cd to the unzipped directory.
-4. Execute ./hemera install YOUR_DISIRED_HEMERA_HOME_DIRECTORY
-5. Done :)
+3. Open a terminal and cd to the unzipped directory.
+4. Run "./hemera install YOUR_DISIRED_HEMERA_HOME_DIRECTORY"
+5. Follow the instructions: run "source /etc/profile" or restart shell session to
+allow the newly exported path to take effect.
+6. Done :)
+
+### Uninstallation
+
+1. Open a terminal and run "hemera uninstall"
+2. Follow the instructions: run "source /etc/profile" or restart shell session to
+remove the hemera path.
+
 
 # Hemera - Core Environme
 
