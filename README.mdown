@@ -14,8 +14,8 @@ application extension interface, to help improve mainability and scalability.
 
 1. Provide high throughput, high concurrency and high scalability.
 2. Extremely easy to use to develop RESTful consumer application server.
-3. Provide guidences and enforcements to help improve software maintainability
-and conform to REST principles.
+3. Provide architectrual guidences and enforcements to help improve software
+maintainability and conform to REST principles.
 4. Provide complete application packaging, deployment and hosting solutions.
 5. Modular design to allow extensions and individual project usages.
 
