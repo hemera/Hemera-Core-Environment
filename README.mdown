@@ -29,6 +29,22 @@ connection listener, connection handler and execution service. All the hosted
 applications are run within this JVM process. The runtime can be controlled
 via hemera commands and the runtime handle injected to hosted application modules.
 
+### Execution Service
+
+Execution service is the core layer of the runtime environment. It is essentially
+a highly performant thread-pool that executes all aspects of the runtime, and its
+hosted applications. There are two types of execution services provided. By default
+the runtime uses the Assisted Execution Servcie, which has a fixed number of
+executor threads that are grouped together to implement the work-stealing design.
+This is the preferred and more performant option and in some cases, it can help
+the system to recover from deadlocks. You may choose to use the scalable execution
+service option, and in some cases, this may provide a more cost-effective solution.
+For more information on these variations, please refer to their Java documentation.
+
+### Execution Service Listener
+
+### Exception Handler
+
 ### Connection Listener and Handler
 
 Connection listener and handler is a system level service that you won't need to
@@ -41,8 +57,6 @@ and processors for processing. This system level is implemented with high
 concurrency to allow highly concurrent client request handling. This design
 allows the server to handle a large number of clients concurrently, while providing
 high throughput.
-
-### Execution Service
 
 ### Application
 
@@ -87,16 +101,13 @@ allow the newly exported path to take effect.
 remove the hemera path.
 
 ### Start Runtime
-
+TODO
 
 # Hemera - Core Environme
 
 **Hemera - Core Environment** provides the access to various system
 functionalities including platform installation and un-installation, runtime
 start and stop, application bundling, deployment and removal.
-
-# Documentation
-TODO
 
 # License
 
