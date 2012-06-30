@@ -22,7 +22,7 @@ and conform to REST principles.
 
 # Hemera - Core Environme
 
-**Hemera - Core Environment** provides the environment access to various system
+**Hemera - Core Environment** provides the access to various system
 functionalities including platform installation and un-installation, runtime
 start and stop, application bundling, deployment and removal.
 
