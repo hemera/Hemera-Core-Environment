@@ -2,6 +2,7 @@
 Created by **Yi Wang (hemera)**
 
 **Introdction**
+
 Hemera is a high-performance, lightweight, RESTful consumer server application
 development platform based on the Java SE platform. It aims to help consumer
 application developers to focus on their application specific logic development
@@ -10,6 +11,7 @@ guidences and enforcements to application server architecture through its
 application extension interface, to help improve mainability and scalability.
 
 **Design Requirements, Features and Principles**
+
 1. Provide high throughput, high concurrency and high scalability.
 2. Extremely easy to use to develop RESTful consumer application server.
 3. Provide guidences and enforcements to help improve software maintainability
