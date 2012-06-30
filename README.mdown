@@ -20,18 +20,18 @@ and conform to REST principles.
 5. Modular design to allow extensions and individual project usages.
 
 
-# Hemera Engine - Core Environment
+# Hemera - Core Environme
 
-
-
-**Hemera Engine - Core Environment** TODO
+**Hemera - Core Environment** provides the environment access to various system
+functionalities including platform installation and un-installation, runtime
+start and stop, application bundling, deployment and removal.
 
 # Documentation
 TODO
 
 # License
 
-**Hemera Engine - Core Environment** is available under the MIT license:
+**Hemera - Core Environment** is available under the MIT license:
 
 *Copyright (c) 2012 Yi Wang (hemera)*
 
