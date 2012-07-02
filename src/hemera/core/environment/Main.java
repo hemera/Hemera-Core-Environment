@@ -1,6 +1,6 @@
 package hemera.core.environment;
 
-import hemera.core.environment.enumn.DEnvironment;
+import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.enumn.ECommand;
 
 /**
@@ -40,7 +40,7 @@ public class Main {
 		final StringBuilder middleLine = new StringBuilder();
 		middleLine.append("#");
 		for (int i = 0; i < spacesCount; i++) middleLine.append(" ");
-		middleLine.append("Hemera").append(" ").append(DEnvironment.Version.value);
+		middleLine.append("Hemera").append(" ").append(EEnvironment.Version.value);
 		for (int i = 0; i < spacesCount; i++) middleLine.append(" ");
 		middleLine.append("#");
 		// Determine the overall width.

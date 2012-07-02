@@ -10,30 +10,17 @@ package hemera.core.environment.enumn;
  */
 public enum KBundleManifest {
 	/**
-	 * The key for modules list attribute. The value
-	 * is a <code>String</code> of module Jar file
-	 * names separated by <code>ModuleSeparator</code>
-	 * character.
+	 * The key for the HAM file file name attribute.
+	 * The value is the <code>String</code> file name
+	 * of the HAM file.
 	 */
-	Modules("modules"),
-	/**
-	 * The module separator that separates the module
-	 * Jar file names for the <code>Modules</code>
-	 * manifest value.
-	 */
-	ModuleSeparator(";"),
+	HAMFile("ham_file"),
 	/**
 	 * The key for the library Jar file name attribute.
 	 * The value is the <code>String</code> file name
 	 * of the library Jar file.
 	 */
-	LibraryJarFile("lib_jar"),
-	/**
-	 * The key for the HAM file file name attribute.
-	 * The value is the <code>String</code> file name
-	 * of the HAM file.
-	 */
-	HAMFile("ham_file");
+	LibraryJarFile("lib_jar");
 	
 	/**
 	 * The <code>String</code> key.

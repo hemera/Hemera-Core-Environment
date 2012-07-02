@@ -3,6 +3,9 @@ package hemera.core.environment.enumn;
 import hemera.core.environment.command.BundleCommand;
 import hemera.core.environment.command.DeployCommand;
 import hemera.core.environment.command.InstallCommand;
+import hemera.core.environment.command.StartCommand;
+import hemera.core.environment.command.StopCommand;
+import hemera.core.environment.command.UndeployCommand;
 import hemera.core.environment.command.UninstallCommand;
 import hemera.core.environment.interfaces.ICommand;
 
@@ -27,6 +30,18 @@ public enum ECommand implements ICommand {
 	 */
 	Deploy("deploy", new DeployCommand()),
 	/**
+	 * The un-deploy command.
+	 */
+	Undeploy("undeploy", new UndeployCommand()),
+	/**
+	 * The start command.
+	 */
+	Start("start", new StartCommand()),
+	/**
+	 * The stop command.
+	 */
+	Stop("stop", new StopCommand()),
+	/**
 	 * The un-install command.
 	 */
 	Uninstall("uninstall", new UninstallCommand());
@@ -45,6 +60,12 @@ public enum ECommand implements ICommand {
 			return ECommand.Bundle;
 		} else if (value.equals(ECommand.Deploy.value)) {
 			return ECommand.Deploy;
+		} else if (value.equals(ECommand.Undeploy.value)) {
+			return ECommand.Undeploy;
+		} else if (value.equals(ECommand.Start.value)) {
+			return ECommand.Start;
+		} else if (value.equals(ECommand.Stop.value)) {
+			return ECommand.Stop;
 		} else if (value.equals(ECommand.Uninstall.value)) {
 			return ECommand.Uninstall;
 		} else {
