@@ -6,7 +6,7 @@ import java.io.IOException;
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 /**
  * <code>UninstallCommand</code> defines the logic that

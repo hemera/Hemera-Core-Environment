@@ -2,7 +2,7 @@ package hemera.core.environment.util;
 
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.util.config.Configuration;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,6 +139,19 @@ public enum UEnvironment {
 	public String getConfigurationFile(final String homeDir) {
 		final String configDir = this.getConfigDir(homeDir);
 		return configDir + EEnvironment.ConfigurationFile.value;
+	}
+	
+	/**
+	 * Retrieve the application directory of the given
+	 * application name.
+	 * @param appName The <code>String</code> name of
+	 * the application.
+	 * @return The <code>String</code> application's
+	 * directory path.
+	 */
+	public String getApplicationDir(final String appName) {
+		final String appsDir = this.getInstalledAppsDir();
+		return appsDir + appName + File.separator;
 	}
 
 	/**

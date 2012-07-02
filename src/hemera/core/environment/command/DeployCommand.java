@@ -25,7 +25,7 @@ import hemera.core.environment.enumn.KBundleManifest;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.JSVCScriptGenerator;
 import hemera.core.environment.util.UEnvironment;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 /**
  * <code>DeployCommand</code> defines the logic that
@@ -112,11 +112,8 @@ public class DeployCommand implements ICommand {
 	 */
 	private String createAppDir(final Document ham) throws IOException {
 		final String appName = this.parseAppName(ham);
+		final String path = UEnvironment.instance.getApplicationDir(appName);
 		// Create directory.
-		final StringBuilder builder = new StringBuilder();
-		builder.append(UEnvironment.instance.getInstalledAppsDir());
-		builder.append(appName).append(File.separator);
-		final String path = builder.toString();
 		final File appDir = new File(path);
 		appDir.mkdirs();
 		return path;

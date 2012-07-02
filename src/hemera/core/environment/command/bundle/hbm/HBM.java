@@ -1,42 +1,38 @@
 package hemera.core.environment.command.bundle.hbm;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * <code>HBMParser</code> defines the implementation
- * that provides the functionality to parse a HBM file
- * into an application bundle..
+ * <code>HBM</code> defines the data structure of a
+ * Hemera Bundle Model of an application.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public class HBMParser {
-	
+public class HBM {
 	/**
-	 * Parse the HBM file located at given path into
-	 * a Hemera bundle.
-	 * @param path The <code>String</code> path to the
-	 * HBM file.
-	 * @return The <code>HBundle</code> instance.
-	 * @throws Exception If parsing failed.
+	 * The <code>String</code> application name.
 	 */
-	public HBundle parse(final String path) throws Exception {
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		final DocumentBuilder builder = factory.newDocumentBuilder();
-		final Document document = builder.parse(path);
-		// Parse data.
-		final String name = this.parseName(document);
-		final List<HBMModule> modules = this.parseModules(document);
-		return new HBundle(name, modules);
+	public final String applicationName;
+	/**
+	 * The <code>List</code> of <code>HBMModule</code>
+	 * the bundle contains.
+	 */
+	public final List<HBMModule> modules;
+
+	/**
+	 * Constructor of <code>HBM</code>.
+	 * @param document The <code>Document</code> to
+	 * parse from.
+	 */
+	public HBM(final Document document) {
+		this.applicationName = this.parseName(document);
+		this.modules = this.parseModules(document);
 	}
 	
 	/**

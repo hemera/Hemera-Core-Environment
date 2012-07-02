@@ -1,14 +1,11 @@
 package hemera.core.environment.command.bundle.hbm;
 
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
  * <code>HBMModule</code> defines the immutable unit
- * representing a single module node in a HBM file. It
- * provides the functionality to parse a given XML tag
- * and set the proper instance values.
+ * representing a single module node in a HBM file.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0

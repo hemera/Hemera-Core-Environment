@@ -17,7 +17,7 @@ import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.JSVCScriptGenerator;
 import hemera.core.environment.util.UEnvironment;
 import hemera.core.environment.util.config.Configuration;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 /**
  * <code>InstallCommand</code> defines the logic that

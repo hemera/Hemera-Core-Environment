@@ -27,6 +27,10 @@ public class ConfigRuntime {
 	 * The <code>ConfigSocket</code> instance.
 	 */
 	public final ConfigSocket socket;
+	/**
+	 * The <code>String</code> logging directory.
+	 */
+	public final String loggingDir;
 	
 	/**
 	 * Constructor of <code>ConfigRuntime</code>.
@@ -37,6 +41,7 @@ public class ConfigRuntime {
 		this.homeDir = homeDir;
 		this.execution = new ConfigExecutionService();
 		this.socket = new ConfigSocket();
+		this.loggingDir = UEnvironment.instance.getLogDir(homeDir);
 	}
 	
 	/**
@@ -49,6 +54,8 @@ public class ConfigRuntime {
 		final Element runtime = this.parseRuntime(environment);
 		this.execution = new ConfigExecutionService(runtime);
 		this.socket = new ConfigSocket(runtime);
+		final Element logging = this.parseLogging(runtime);
+		this.loggingDir = this.parseLoggingDir(logging);
 	}
 	
 	/**
@@ -63,6 +70,34 @@ public class ConfigRuntime {
 			throw new IllegalArgumentException("Invalid environment configuration. Must contain one runtime tag.");
 		}
 		return (Element)list.item(0);
+	}
+	
+	/**
+	 * Parse the logging tag.
+	 * @param runtime The <code>Element</code> of the
+	 * runtime tag to parse from.
+	 * @return The logging <code>Element</code>.
+	 */
+	private Element parseLogging(final Element runtime) {
+		final NodeList list = runtime.getElementsByTagName(KConfiguration.Logging.tag);
+		if (list == null || list.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid runtime configuration. Must contain one logging tag.");
+		}
+		return (Element)list.item(0);
+	}
+	
+	/**
+	 * Parse the logging directory value.
+	 * @param logging The <code>Element</code> of the
+	 * logging tag to parse from.
+	 * @return The <code>String</code> value.
+	 */
+	private String parseLoggingDir(final Element logging) {
+		final NodeList list = logging.getElementsByTagName(KConfiguration.LoggingDirectory.tag);
+		if (list == null || list.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid logging configuration. Must contain one directory tag.");
+		}
+		return list.item(0).getTextContent();
 	}
 	
 	/**
@@ -97,7 +132,7 @@ public class ConfigRuntime {
 		final Element logging = document.createElement(KConfiguration.Logging.tag);
 		// Directory tag.
 		final Element directory = document.createElement(KConfiguration.LoggingDirectory.tag);
-		directory.setTextContent(UEnvironment.instance.getLogDir(this.homeDir));
+		directory.setTextContent(this.loggingDir);
 		logging.appendChild(directory);
 		return logging;
 	}

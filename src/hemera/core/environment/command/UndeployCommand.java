@@ -1,12 +1,10 @@
 package hemera.core.environment.command;
 
-import java.io.File;
-
 import hemera.core.environment.enumn.ECommand;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.JSVCScriptGenerator;
 import hemera.core.environment.util.UEnvironment;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 /**
  * <code>UndeployCommand</code> defines the logic that
@@ -28,8 +26,7 @@ public class UndeployCommand implements ICommand {
 		}
 		final String appName = args[0];
 		// Remove the application folder.
-		final String appsDir = UEnvironment.instance.getInstalledAppsDir();
-		final String path = appsDir + appName + File.separator;
+		final String path = UEnvironment.instance.getApplicationDir(appName);
 		FileUtils.instance.delete(path);
 		// Regenerate JSVC scripts.
 		final String homeDir = UEnvironment.instance.getInstalledHomeDir();

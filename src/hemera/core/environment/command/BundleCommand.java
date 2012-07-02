@@ -9,16 +9,15 @@ import java.util.jar.Manifest;
 
 import org.w3c.dom.Document;
 
-import hemera.core.environment.command.bundle.ham.HAMGenerator;
+import hemera.core.environment.command.bundle.ham.HAM;
 import hemera.core.environment.command.bundle.hbm.HBMModule;
-import hemera.core.environment.command.bundle.hbm.HBMParser;
-import hemera.core.environment.command.bundle.hbm.HBundle;
+import hemera.core.environment.command.bundle.hbm.HBM;
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.enumn.KBundleManifest;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
-import hemera.utility.FileUtils;
-import hemera.utility.java.Compiler;
+import hemera.core.utility.FileUtils;
+import hemera.core.utility.Compiler;
 
 /**
  * <code>BundleCommand</code> defines the logic that
@@ -50,10 +49,11 @@ public class BundleCommand implements ICommand {
 			tempDir.mkdirs();
 			// Parse bundle from HBM file.
 			System.out.println("Parsing Hemera Bundle Model (HBM) file...");
-			final HBundle bundle = new HBMParser().parse(hbmPath);
+			final Document document = FileUtils.instance.readAsDocument(new File(hbmPath));
+			final HBM bundle = new HBM(document);
 			// Generate HAM file.
 			System.out.println("Generating Hemera Application Model (HAM) file...");
-			final Document ham = new HAMGenerator().generate(bundle);
+			final Document ham = new HAM(bundle).toXML();
 			final String hamTarget = tempPath + bundle.applicationName.toLowerCase() + EEnvironment.HAMExtension.value;
 			final File hamFile = FileUtils.instance.writeDocument(ham, hamTarget);
 			// Build modules.
@@ -92,7 +92,7 @@ public class BundleCommand implements ICommand {
 	 * Jar <code>File</code>.
 	 * @throws Exception If building modules failed.
 	 */
-	private List<File> buildModules(final HBundle bundle, final String tempDir) throws Exception {
+	private List<File> buildModules(final HBM bundle, final String tempDir) throws Exception {
 		final Compiler compiler = new Compiler();
 		final int size = bundle.modules.size();
 		final ArrayList<File> moduleJars = new ArrayList<File>(size);

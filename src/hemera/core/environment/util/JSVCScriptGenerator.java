@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.util.config.Configuration;
-import hemera.utility.FileUtils;
+import hemera.core.utility.FileUtils;
 
 import org.xml.sax.SAXException;
 
