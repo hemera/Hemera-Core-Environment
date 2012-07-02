@@ -176,9 +176,14 @@ public class InstallCommand implements ICommand {
 		final String updatedScript = scriptContents.replace(jar.getName(), newJarPath);
 		FileUtils.instance.writeAsString(updatedScript, newScriptPath);
 		// Make script executable.
-		final Process chmod = Runtime.getRuntime().exec("chmod +x " + newScriptPath);
-		final int result = chmod.waitFor();
+		final Process scriptChmod = Runtime.getRuntime().exec("chmod +x " + newScriptPath);
+		int result = scriptChmod.waitFor();
 		if (result != 0) throw new IOException("Making hemera script executable failed.");
+		// Make JSVC executable.
+		final String jsvcPath = binDir + "jsvc";
+		final Process jsvcChmod = Runtime.getRuntime().exec("chmod +x " + jsvcPath);
+		result = jsvcChmod.waitFor();
+		if (result != 0) throw new IOException("Making JSVC script executable failed.");
 	}
 
 	/**
