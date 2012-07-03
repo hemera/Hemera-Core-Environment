@@ -51,6 +51,10 @@ public enum EEnvironment {
 	 */
 	JSVCError("jsvc.error"),
 	/**
+	 * The JSVC PID file.
+	 */
+	JSVCPIDFile("jsvc.pid"),
+	/**
 	 * The JSVC start script file name.
 	 */
 	JSVCStartScriptFile("hemera-jsvc-start"),

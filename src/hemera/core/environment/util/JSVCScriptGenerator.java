@@ -147,7 +147,9 @@ public enum JSVCScriptGenerator {
 		// JVM arguments.
 		builder.append(" -jvm server -Xms").append(config.jvm.memoryMin).append(" -Xmx").append(config.jvm.memoryMax).append(" ");
 		// File encoding.
-		builder.append("-Dfile.encoding=").append(config.jvm.fileEncoding);
+		builder.append("-Dfile.encoding=").append(config.jvm.fileEncoding).append(" ");
+		// PID file location.
+		builder.append("-pidfile ").append(binDir).append(EEnvironment.JSVCPIDFile.value);
 		return builder.toString();
 	}
 
