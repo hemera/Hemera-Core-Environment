@@ -35,6 +35,14 @@ public enum EEnvironment {
 	 */
 	HAMExtension(".ham"),
 	/**
+	 * The Mac OSX JSVC executable file name.
+	 */
+	JSVCOSX("jsvc-osx"),
+	/**
+	 * The Linux JSVC executable file name.
+	 */
+	JSVCLinux("jsvc-linux"),
+	/**
 	 * The JSVC start script file name.
 	 */
 	JSVCStartScriptFile("hemera-jsvc-start"),

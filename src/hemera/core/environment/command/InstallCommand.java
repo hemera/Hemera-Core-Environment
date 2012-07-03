@@ -180,8 +180,13 @@ public class InstallCommand implements ICommand {
 		int result = scriptChmod.waitFor();
 		if (result != 0) throw new IOException("Making hemera script executable failed.");
 		// Make JSVC executable.
-		final String jsvcPath = binDir + "jsvc";
-		final Process jsvcChmod = Runtime.getRuntime().exec("chmod +x " + jsvcPath);
+		String jsvcFile = null;
+		if (UEnvironment.instance.isOSX()) {
+			jsvcFile = binDir + EEnvironment.JSVCOSX.value;
+		} else if (UEnvironment.instance.isLinux()) {
+			jsvcFile = binDir + EEnvironment.JSVCLinux.value;
+		}
+		final Process jsvcChmod = Runtime.getRuntime().exec("chmod +x " + jsvcFile);
 		result = jsvcChmod.waitFor();
 		if (result != 0) throw new IOException("Making JSVC script executable failed.");
 	}
