@@ -8,6 +8,8 @@ import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
 import hemera.core.utility.FileUtils;
+import hemera.core.utility.shell.Shell;
+import hemera.core.utility.shell.ShellResult;
 
 /**
  * <code>UninstallCommand</code> defines the logic that
@@ -59,10 +61,10 @@ public class UninstallCommand implements ICommand {
 		final String currentDir = FileUtils.instance.getCurrentJarDirectory();
 		final String tempFile = currentDir + "temp.env";
 		final File temp = FileUtils.instance.writeAsString(updatedContents.toString(), tempFile);
-		// Execute sudo command to update environment profile.
+		// Execute command to update environment profile.
 		final StringBuilder command = new StringBuilder();
-		command.append("sudo mv ").append(temp.getAbsolutePath()).append(" ").append(file.getAbsolutePath());
-		final Process process = Runtime.getRuntime().exec(command.toString());
-		process.waitFor();
+		command.append("mv ").append(temp.getAbsolutePath()).append(" ").append(file.getAbsolutePath());
+		final ShellResult result = Shell.instance.executeAsRoot(command.toString());
+		if (result.code != 0) throw new IOException("Removing Hemera environment path failed.\n" + result.output);
 	}
 }

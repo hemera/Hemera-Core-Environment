@@ -3,6 +3,8 @@ package hemera.core.environment.command;
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
+import hemera.core.utility.shell.Shell;
+import hemera.core.utility.shell.ShellResult;
 
 /**
  * <code>StopCommand</code> defines the unit of logic
@@ -20,11 +22,11 @@ public class StopCommand implements ICommand {
 		// Execute the script as root.
 		System.out.println("Stopping Hemera runtime environment...");
 		final String binDir = UEnvironment.instance.getInstalledBinDir();
-		final StringBuilder command = new StringBuilder();
-		command.append("sudo ").append(binDir).append(EEnvironment.JSVCStopScriptFile.value);
-		final Process process = Runtime.getRuntime().exec(command.toString());
-		final int result = process.waitFor();
-		if (result != 0) System.err.println("Executing JSVC script failed. Please try to kill the JSVC process.");
+		final ShellResult result = Shell.instance.executeAsRoot(binDir+EEnvironment.JSVCStopScriptFile.value);
+		if (result.code != 0) {
+			System.err.println("Executing JSVC script failed: " + result.code);
+			System.err.println(result.output);
+		}
 		else System.out.println("Hemera runtime environment is now stopped.");
 	}
 }

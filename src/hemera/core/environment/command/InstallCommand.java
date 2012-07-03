@@ -18,6 +18,8 @@ import hemera.core.environment.util.JSVCScriptGenerator;
 import hemera.core.environment.util.UEnvironment;
 import hemera.core.environment.util.config.Configuration;
 import hemera.core.utility.FileUtils;
+import hemera.core.utility.shell.Shell;
+import hemera.core.utility.shell.ShellResult;
 
 /**
  * <code>InstallCommand</code> defines the logic that
@@ -176,9 +178,8 @@ public class InstallCommand implements ICommand {
 		final String updatedScript = scriptContents.replace(jar.getName(), newJarPath);
 		FileUtils.instance.writeAsString(updatedScript, newScriptPath);
 		// Make script executable.
-		final Process scriptChmod = Runtime.getRuntime().exec("chmod +x " + newScriptPath);
-		int result = scriptChmod.waitFor();
-		if (result != 0) throw new IOException("Making hemera script executable failed.");
+		final ShellResult scriptResult = Shell.instance.execute("chmod +x " + newScriptPath);
+		if (scriptResult.code != 0) throw new IOException("Making hemera script executable failed.\n" + scriptResult.output);
 		// Make JSVC executable.
 		String jsvcFile = null;
 		if (UEnvironment.instance.isOSX()) {
@@ -186,9 +187,8 @@ public class InstallCommand implements ICommand {
 		} else if (UEnvironment.instance.isLinux()) {
 			jsvcFile = binDir + EEnvironment.JSVCLinux.value;
 		}
-		final Process jsvcChmod = Runtime.getRuntime().exec("chmod +x " + jsvcFile);
-		result = jsvcChmod.waitFor();
-		if (result != 0) throw new IOException("Making JSVC script executable failed.");
+		final ShellResult jsvcResult = Shell.instance.execute("chmod +x " + jsvcFile);
+		if (jsvcResult.code != 0) throw new IOException("Making JSVC script executable failed.\n" + jsvcResult.output);
 	}
 
 	/**
@@ -224,11 +224,10 @@ public class InstallCommand implements ICommand {
 		final String currentDir = FileUtils.instance.getCurrentJarDirectory();
 		final String tempFile = currentDir + "temp.env";
 		final File temp = FileUtils.instance.writeAsString(updatedContents.toString(), tempFile);
-		// Execute sudo command to update environment profile.
+		// Execute command to update environment profile.
 		final StringBuilder command = new StringBuilder();
-		command.append("sudo mv ").append(temp.getAbsolutePath()).append(" ").append(file.getAbsolutePath());
-		final Process process = Runtime.getRuntime().exec(command.toString());
-		final int result = process.waitFor();
-		if (result != 0) throw new IOException("Overwriting existing environment file failed.");
+		command.append("mv ").append(temp.getAbsolutePath()).append(" ").append(file.getAbsolutePath());
+		final ShellResult result = Shell.instance.executeAsRoot(command.toString());
+		if (result.code != 0) throw new IOException("Overwriting existing environment file failed.\n" + result.output);
 	}
 }

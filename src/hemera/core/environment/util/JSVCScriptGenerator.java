@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.util.config.Configuration;
 import hemera.core.utility.FileUtils;
+import hemera.core.utility.shell.Shell;
 
 import org.xml.sax.SAXException;
 
@@ -47,12 +48,12 @@ public enum JSVCScriptGenerator {
 		final String startScriptContents = JSVCScriptGenerator.instance.generateStartScript(homeDir);
 		final String startTarget = binDir + EEnvironment.JSVCStartScriptFile.value;
 		FileUtils.instance.writeAsString(startScriptContents, startTarget);
-		this.makeExecutable(startTarget);
+		Shell.instance.makeExecutable(startTarget);
 		// Stop script.
 		final String stopScriptContents = JSVCScriptGenerator.instance.generateStopScript(homeDir);
 		final String stopTarget = binDir + EEnvironment.JSVCStopScriptFile.value;
 		FileUtils.instance.writeAsString(stopScriptContents, stopTarget);
-		this.makeExecutable(stopTarget);
+		Shell.instance.makeExecutable(stopTarget);
 	}
 
 	/**
@@ -188,19 +189,5 @@ public enum JSVCScriptGenerator {
 			builder.append(file.getAbsolutePath());
 			builder.append(File.pathSeparator);
 		}
-	}
-
-	/**
-	 * Make the given target executable.
-	 * @param target The <code>String</code> target
-	 * path.
-	 * @throws IOException If changing mode failed.
-	 * @throws InterruptedException If the command
-	 * is interrupted.
-	 */
-	private void makeExecutable(final String target) throws IOException, InterruptedException {
-		final Process chmod = Runtime.getRuntime().exec("chmod +x " + target);
-		final int result = chmod.waitFor();
-		if (result != 0) throw new IOException("Making hemera script executable failed.");
 	}
 }
