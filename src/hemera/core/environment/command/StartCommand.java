@@ -17,11 +17,11 @@ public class StartCommand implements ICommand {
 
 	@Override
 	public void execute(final String[] args) throws Exception {
-		// Execute the script.
+		// Execute the script as root.
 		System.out.println("Starting Hemera runtime environment...");
 		final String binDir = UEnvironment.instance.getInstalledBinDir();
 		final StringBuilder command = new StringBuilder();
-		command.append(binDir).append(EEnvironment.JSVCStartScriptFile.value);
+		command.append("sudo ").append(binDir).append(EEnvironment.JSVCStartScriptFile.value);
 		final Process process = Runtime.getRuntime().exec(command.toString());
 		final int result = process.waitFor();
 		if (result != 0) System.err.println("Executing JSVC script failed.");

@@ -75,8 +75,10 @@ public enum JSVCScriptGenerator {
 		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
-		builder.append(header).append(" -stop -wait 20 -cp ").append(classpath).append(" ");
-		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath);
+		builder.append(header).append(" -stop -wait 10 -cp ").append(classpath).append(" ");
+		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
+		// Exit root.
+		builder.append("exit\n");
 		return builder.toString();
 	}
 
@@ -100,8 +102,10 @@ public enum JSVCScriptGenerator {
 		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
-		builder.append(header).append(" -wait 20 -cp ").append(classpath).append(" ");
-		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath);
+		builder.append(header).append(" -wait 10 -cp ").append(classpath).append(" ");
+		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
+		// Exit root.
+		builder.append("exit\n");
 		return builder.toString();
 	}
 
@@ -125,16 +129,31 @@ public enum JSVCScriptGenerator {
 		builder.append("#!/bin/sh\n\n");
 		// Export Java home based on operating system.
 		if (UEnvironment.instance.isOSX()) {
-			builder.append("export JAVA_HOME=$(/usr/libexec/java_home)");
+			builder.append("export JAVA_HOME=$(/usr/libexec/java_home)\n");
 		} else if (UEnvironment.instance.isLinux()) {
-			builder.append("export JAVA_HOME=/usr/lib/jvm/default-java");
+			builder.append("export JAVA_HOME=/usr/lib/jvm/default-java\n");
 		}
-		builder.append("sudo ").append(binDir).append("jsvc -jvm server ");
-		builder.append("-Xms").append(config.jvm.memoryMin).append(" -Xmx").append(config.jvm.memoryMax).append(" ");
+		builder.append("export PATH=$JAVA_HOME:$PATH\n");
+		// JSVC executable based on operating system.
+		String jsvcFile = null;
+		if (UEnvironment.instance.isOSX()) {
+			jsvcFile = binDir + EEnvironment.JSVCOSX.value;
+		} else if (UEnvironment.instance.isLinux()) {
+			jsvcFile = binDir + EEnvironment.JSVCLinux.value;
+		}
+		builder.append(jsvcFile).append(" ");
+		// Output file.
+		final String logDir = UEnvironment.instance.getLogDir(homeDir);
+		builder.append("-outfile ").append(logDir).append(EEnvironment.JSVCOut.value).append(" ");
+		// Error file.
+		builder.append("-errfile ").append(logDir).append(EEnvironment.JSVCError.value).append(" ");
+		// JVM arguments.
+		builder.append(" -jvm server -Xms").append(config.jvm.memoryMin).append(" -Xmx").append(config.jvm.memoryMax).append(" ");
+		// File encoding.
 		builder.append("-Dfile.encoding=").append(config.jvm.fileEncoding);
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Build the class path section of the script by
 	 * scanning the binary directory, the applications
@@ -157,7 +176,7 @@ public enum JSVCScriptGenerator {
 		builder.deleteCharAt(builder.length()-1);
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Append all the files in the given list to the
 	 * given string builder with class path format.
@@ -174,7 +193,7 @@ public enum JSVCScriptGenerator {
 			builder.append(File.pathSeparator);
 		}
 	}
-	
+
 	/**
 	 * Make the given target executable.
 	 * @param target The <code>String</code> target

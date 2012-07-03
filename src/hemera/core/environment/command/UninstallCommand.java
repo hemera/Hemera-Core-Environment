@@ -20,6 +20,9 @@ public class UninstallCommand implements ICommand {
 
 	@Override
 	public void execute(final String[] args) throws Exception {
+		// Stop the service first.
+		final StopCommand stopCmd = new StopCommand();
+		stopCmd.execute(null);
 		// Remove Hemera from environment profile.
 		this.removeEnvPath();
 		// Remove existing home directory.

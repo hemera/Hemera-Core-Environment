@@ -43,6 +43,14 @@ public enum EEnvironment {
 	 */
 	JSVCLinux("jsvc-linux"),
 	/**
+	 * The JSVC standard output file.
+	 */
+	JSVCOut("jsvc.out"),
+	/**
+	 * The JSVC error output file.
+	 */
+	JSVCError("jsvc.error"),
+	/**
 	 * The JSVC start script file name.
 	 */
 	JSVCStartScriptFile("hemera-jsvc-start"),
