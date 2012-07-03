@@ -77,8 +77,6 @@ public enum JSVCScriptGenerator {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -stop -wait 10 -cp ").append(classpath).append(" ");
 		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
-		// Exit root.
-		builder.append("exit\n");
 		return builder.toString();
 	}
 
@@ -104,8 +102,6 @@ public enum JSVCScriptGenerator {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -wait 10 -cp ").append(classpath).append(" ");
 		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
-		// Exit root.
-		builder.append("exit\n");
 		return builder.toString();
 	}
 
