@@ -3,6 +3,7 @@ package hemera.core.environment.command;
 import java.io.File;
 import java.io.IOException;
 
+import hemera.core.environment.enumn.ECommand;
 import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
@@ -21,8 +22,7 @@ public class UninstallCommand implements ICommand {
 	@Override
 	public void execute(final String[] args) throws Exception {
 		// Stop the service first.
-		final StopCommand stopCmd = new StopCommand();
-		stopCmd.execute(null);
+		ECommand.Stop.execute(null);
 		// Remove Hemera from environment profile.
 		this.removeEnvPath();
 		// Remove existing home directory.
