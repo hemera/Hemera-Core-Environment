@@ -2,8 +2,10 @@ package hemera.core.environment.enumn;
 
 import hemera.core.environment.command.BundleCommand;
 import hemera.core.environment.command.DeployCommand;
+import hemera.core.environment.command.HelpCommand;
 import hemera.core.environment.command.InstallCommand;
 import hemera.core.environment.command.StartCommand;
+import hemera.core.environment.command.StatusCommand;
 import hemera.core.environment.command.StopCommand;
 import hemera.core.environment.command.UndeployCommand;
 import hemera.core.environment.command.UninstallCommand;
@@ -20,31 +22,39 @@ public enum ECommand implements ICommand {
 	/**
 	 * The install command.
 	 */
-	Install("install", new InstallCommand()),
+	Install(new InstallCommand()),
+	/**
+	 * The help command.
+	 */
+	Help(new HelpCommand()),
 	/**
 	 * The bundle command.
 	 */
-	Bundle("bundle", new BundleCommand()),
+	Bundle(new BundleCommand()),
 	/**
 	 * The deploy command.
 	 */
-	Deploy("deploy", new DeployCommand()),
+	Deploy(new DeployCommand()),
 	/**
 	 * The un-deploy command.
 	 */
-	Undeploy("undeploy", new UndeployCommand()),
+	Undeploy(new UndeployCommand()),
 	/**
 	 * The start command.
 	 */
-	Start("start", new StartCommand()),
+	Start(new StartCommand()),
 	/**
 	 * The stop command.
 	 */
-	Stop("stop", new StopCommand()),
+	Stop(new StopCommand()),
+	/**
+	 * The status command.
+	 */
+	Status(new StatusCommand()),
 	/**
 	 * The un-install command.
 	 */
-	Uninstall("uninstall", new UninstallCommand());
+	Uninstall(new UninstallCommand());
 	
 	/**
 	 * Parse the given value into the corresponding
@@ -54,19 +64,23 @@ public enum ECommand implements ICommand {
 	 * <code>null</code> if there is no such command.
 	 */
 	public static ECommand parse(final String value) {
-		if (value.equals(ECommand.Install.value)) {
+		if (value.equals(ECommand.Install.command.getKey())) {
 			return ECommand.Install;
-		} else if (value.equals(ECommand.Bundle.value)) {
+		} else if (value.equals(ECommand.Help.command.getKey())) {
+			return ECommand.Help;
+		} else if (value.equals(ECommand.Bundle.command.getKey())) {
 			return ECommand.Bundle;
-		} else if (value.equals(ECommand.Deploy.value)) {
+		} else if (value.equals(ECommand.Deploy.command.getKey())) {
 			return ECommand.Deploy;
-		} else if (value.equals(ECommand.Undeploy.value)) {
+		} else if (value.equals(ECommand.Undeploy.command.getKey())) {
 			return ECommand.Undeploy;
-		} else if (value.equals(ECommand.Start.value)) {
+		} else if (value.equals(ECommand.Start.command.getKey())) {
 			return ECommand.Start;
-		} else if (value.equals(ECommand.Stop.value)) {
+		} else if (value.equals(ECommand.Stop.command.getKey())) {
 			return ECommand.Stop;
-		} else if (value.equals(ECommand.Uninstall.value)) {
+		} else if (value.equals(ECommand.Status.command.getKey())) {
+			return ECommand.Status;
+		} else if (value.equals(ECommand.Uninstall.command.getKey())) {
 			return ECommand.Uninstall;
 		} else {
 			return null;
@@ -74,27 +88,30 @@ public enum ECommand implements ICommand {
 	}
 	
 	/**
-	 * The <code>String</code> value.
-	 */
-	private final String value;
-	/**
 	 * The <code>ICommand</code> instance.
 	 */
 	private final ICommand command;
 	
 	/**
 	 * Constructor of <code>ECommand</code>.
-	 * @param value The <code>String</code> value.
 	 * @param command The <code>ICommand</code>.
 	 */
-	private ECommand(final String value, final ICommand command) {
-		this.value = value;
+	private ECommand(final ICommand command) {
 		this.command = command;
 	}
-
 
 	@Override
 	public void execute(final String[] args) throws Exception {
 		this.command.execute(args);
+	}
+	
+	@Override
+	public String getKey() {
+		return this.command.getKey();
+	}
+
+	@Override
+	public String getDescription() {
+		return this.command.getDescription();
 	}
 }

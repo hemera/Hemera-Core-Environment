@@ -29,4 +29,14 @@ public class StartCommand implements ICommand {
 		}
 		else System.out.println("Hemera runtime environment is now running.");
 	}
+	
+	@Override
+	public String getKey() {
+		return "start";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey();
+	}
 }

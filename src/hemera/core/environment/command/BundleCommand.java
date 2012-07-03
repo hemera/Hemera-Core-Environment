@@ -201,4 +201,14 @@ public class BundleCommand implements ICommand {
 		manifest.getMainAttributes().putValue(KBundleManifest.LibraryJarFile.key, libjar.getName());
 		return manifest;
 	}
+
+	@Override
+	public String getKey() {
+		return "bundle";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey() + " [The path to the bundle model (hbm) file, The path put the final bundle file]";
+	}
 }

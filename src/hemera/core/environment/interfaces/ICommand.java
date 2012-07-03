@@ -17,4 +17,19 @@ public interface ICommand {
 	 * @throws Exception If any processing failed.
 	 */
 	public void execute(final String[] args) throws Exception;
+	
+	/**
+	 * Retrieve the command key that is used to invoke
+	 * this command.
+	 * @return The <code>String</code> key.
+	 */
+	public String getKey();
+	
+	/**
+	 * Retrieve the description of this command that
+	 * includes the command key and all the required
+	 * arguments.
+	 * @return The <code>String</code> description.
+	 */
+	public String getDescription();
 }

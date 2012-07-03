@@ -230,4 +230,14 @@ public class InstallCommand implements ICommand {
 		final ShellResult result = Shell.instance.executeAsRoot(command.toString());
 		if (result.code != 0) throw new IOException("Overwriting existing environment file failed.\n" + result.output);
 	}
+	
+	@Override
+	public String getKey() {
+		return "install";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey() + " [The path to install the environment]";
+	}
 }

@@ -37,4 +37,14 @@ public class UndeployCommand implements ICommand {
 		ECommand.Stop.execute(null);
 		ECommand.Start.execute(null);
 	}
+	
+	@Override
+	public String getKey() {
+		return "undeploy";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey() + " [The name of the application to undeploy]";
+	}
 }

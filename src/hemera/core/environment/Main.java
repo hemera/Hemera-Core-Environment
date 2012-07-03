@@ -63,7 +63,7 @@ public class Main {
 	 */
 	private static ECommand parse(final String[] args) {
 		if (args == null || args.length < 1) {
-			throw new IllegalArgumentException("Please specify a command");
+			throw new IllegalArgumentException("Please specify a command. Use \"hemera help\" to see all supported commands.");
 		}
 		final String input = args[0];
 		final ECommand command = ECommand.parse(input);
@@ -79,6 +79,7 @@ public class Main {
 					else builder.append("]");
 				}
 			}
+			builder.append("\nUse \"hemera help\" to see all supported commands.");
 			throw new IllegalArgumentException(builder.toString());
 		}
 		return command;

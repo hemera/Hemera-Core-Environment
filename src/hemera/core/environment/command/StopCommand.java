@@ -33,4 +33,14 @@ public class StopCommand implements ICommand {
 		}
 		else System.out.println("Hemera runtime environment is now stopped.");
 	}
+	
+	@Override
+	public String getKey() {
+		return "stop";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey();
+	}
 }

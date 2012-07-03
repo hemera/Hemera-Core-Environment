@@ -230,4 +230,14 @@ public class DeployCommand implements ICommand {
 		}
 		return list.item(0).getTextContent();
 	}
+	
+	@Override
+	public String getKey() {
+		return "deploy";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey() + " [The path to the bundle (hab) file]";
+	}
 }

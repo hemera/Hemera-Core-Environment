@@ -67,4 +67,14 @@ public class UninstallCommand implements ICommand {
 		final ShellResult result = Shell.instance.executeAsRoot(command.toString());
 		if (result.code != 0) throw new IOException("Removing Hemera environment path failed.\n" + result.output);
 	}
+	
+	@Override
+	public String getKey() {
+		return "uninstall";
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getKey();
+	}
 }
