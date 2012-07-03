@@ -24,8 +24,12 @@ public class StopCommand implements ICommand {
 		final String binDir = UEnvironment.instance.getInstalledBinDir();
 		final ShellResult result = Shell.instance.executeAsRoot(binDir+EEnvironment.JSVCStopScriptFile.value);
 		if (result.code != 0) {
-			System.err.println("Executing JSVC script failed: " + result.code);
-			System.err.println(result.output);
+			if (result.code == 255) {
+				System.err.println("No PID file found. Hemera is currently not running.");
+			} else {
+				System.err.println("Executing JSVC script failed: " + result.code);
+				System.err.println(result.output);
+			}
 		}
 		else System.out.println("Hemera runtime environment is now stopped.");
 	}
