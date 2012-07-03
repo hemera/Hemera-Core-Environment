@@ -123,10 +123,12 @@ public class BundleCommand implements ICommand {
 		final String buildDir = tempDir + module.classname + File.separator;
 		// Compile classes.
 		final String classDir = buildDir + "classes" + File.separator;
-		final List<File> classfiles = compiler.compile(module.srcDir, module.libDir, classDir);
+		compiler.compile(module.srcDir, module.libDir, classDir);
 		// Package class files into a Jar file.
 		final String classjarPath = buildDir + module.classname + ".jar";
-		final File classjar = FileUtils.instance.jarFiles(classfiles, classjarPath);
+		final ArrayList<File> classDirFileList = new ArrayList<File>(1);
+		classDirFileList.add(new File(classDir));
+		final File classjar = FileUtils.instance.jarFiles(classDirFileList, classjarPath);
 		// Package class Jar file and module configuration file into a module Jar file.
 		final String modulejarPath = tempDir + module.classname + ".jar";
 		final ArrayList<File> modulefiles = new ArrayList<File>();
