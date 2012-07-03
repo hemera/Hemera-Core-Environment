@@ -165,4 +165,26 @@ public enum UEnvironment {
 	public String getApplicationLibDir(final String appDir) {
 		return FileUtils.instance.getValidDir(appDir) + "lib" + File.separator;
 	}
+	
+	/**
+	 * Check if the current host operating system is
+	 * Mac OSX.
+	 * @return <code>true</code> if the host operating
+	 * system is OSX. <code>false</code> otherwise.
+	 */
+	public boolean isOSX() {
+		final String name = System.getProperty("os.name");
+		return name.toLowerCase().contains("os x");
+	}
+	
+	/**
+	 * Check if the current host operating system is
+	 * Linux.
+	 * @return <code>true</code> if the host operating
+	 * system is Linux. <code>false</code> otherwise.
+	 */
+	public boolean isLinux() {
+		final String name = System.getProperty("os.name");
+		return name.toLowerCase().contains("linux");
+	}
 }

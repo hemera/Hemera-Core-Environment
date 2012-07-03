@@ -123,6 +123,12 @@ public enum JSVCScriptGenerator {
 		final Configuration config = UEnvironment.instance.getConfiguration(homeDir);
 		final StringBuilder builder = new StringBuilder();
 		builder.append("#!/bin/sh\n\n");
+		// Export Java home based on operating system.
+		if (UEnvironment.instance.isOSX()) {
+			builder.append("export JAVA_HOME=$(/usr/libexec/java_home)");
+		} else if (UEnvironment.instance.isLinux()) {
+			builder.append("export JAVA_HOME=/usr/lib/jvm/default-java");
+		}
 		builder.append("sudo ").append(binDir).append("jsvc -jvm server ");
 		builder.append("-Xms").append(config.jvm.memoryMin).append(" -Xmx").append(config.jvm.memoryMax).append(" ");
 		builder.append("-Dfile.encoding=").append(config.jvm.fileEncoding);

@@ -71,7 +71,9 @@ public class ConfigHandler {
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid exception handler configuration. Must contain one Jar file tag.");
 		}
-		return list.item(0).getTextContent();
+		final String text = list.item(0).getTextContent();
+		if (text == null || text.isEmpty()) return null;
+		else return text;
 	}
 	
 	/**
@@ -85,7 +87,9 @@ public class ConfigHandler {
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid exception handler configuration. Must contain one class name tag.");
 		}
-		return list.item(0).getTextContent();
+		final String text = list.item(0).getTextContent();
+		if (text == null || text.isEmpty()) return null;
+		else return text;
 	}
 	
 	/**
