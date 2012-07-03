@@ -25,7 +25,7 @@ public enum UEnvironment {
 	 * The singleton instance.
 	 */
 	instance;
-	
+
 	/**
 	 * Retrieve the installed binary directory.
 	 * @return The <code>String</code> binary
@@ -35,7 +35,7 @@ public enum UEnvironment {
 		final String homeDir = this.getInstalledHomeDir();
 		return this.getBinDir(homeDir);
 	}
-	
+
 	/**
 	 * Retrieve the installed applications directory.
 	 * @return The <code>String</code> applications
@@ -45,7 +45,7 @@ public enum UEnvironment {
 		final String homeDir = this.getInstalledHomeDir();
 		return this.getAppsDir(homeDir);
 	}
-	
+
 	/**
 	 * Retrieve the installed temporary directory.
 	 * @return The <code>String</code> temporary
@@ -64,7 +64,7 @@ public enum UEnvironment {
 		final int index = binDir.indexOf("/bin")+1;
 		return binDir.substring(0, index);
 	}
-	
+
 	/**
 	 * Retrieve the binary directory under the home
 	 * directory.
@@ -109,7 +109,7 @@ public enum UEnvironment {
 	public String getConfigDir(final String homeDir) {
 		return FileUtils.instance.getValidDir(homeDir) + "config" + File.separator;
 	}
-	
+
 	/**
 	 * Retrieve the configuration of the environment
 	 * located at the given path.
@@ -127,7 +127,7 @@ public enum UEnvironment {
 		final Document document = FileUtils.instance.readAsDocument(new File(path));
 		return new Configuration(document);
 	}
-	
+
 	/**
 	 * Retrieve the configuration file path according
 	 * to the specified home directory.
@@ -140,7 +140,7 @@ public enum UEnvironment {
 		final String configDir = this.getConfigDir(homeDir);
 		return configDir + EEnvironment.ConfigurationFile.value;
 	}
-	
+
 	/**
 	 * Retrieve the application directory of the given
 	 * application name.
@@ -165,7 +165,7 @@ public enum UEnvironment {
 	public String getApplicationLibDir(final String appDir) {
 		return FileUtils.instance.getValidDir(appDir) + "lib" + File.separator;
 	}
-	
+
 	/**
 	 * Check if the current host operating system is
 	 * Mac OSX.
@@ -176,7 +176,7 @@ public enum UEnvironment {
 		final String name = System.getProperty("os.name");
 		return name.toLowerCase().contains("os x");
 	}
-	
+
 	/**
 	 * Check if the current host operating system is
 	 * Linux.
@@ -186,5 +186,18 @@ public enum UEnvironment {
 	public boolean isLinux() {
 		final String name = System.getProperty("os.name");
 		return name.toLowerCase().contains("linux");
+	}
+
+	/**
+	 * Check if the runtime environment is running.
+	 * @return <code>true</code> if the runtime is
+	 * currently running. <code>false</code> otherwise.
+	 */
+	public boolean isRunning() {
+		// Check if PID file exists.
+		final String binDir = UEnvironment.instance.getInstalledBinDir();
+		final String path = binDir + EEnvironment.JSVCPIDFile.value;
+		final File pidFile = new File(path);
+		return pidFile.exists();
 	}
 }

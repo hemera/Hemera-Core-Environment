@@ -80,7 +80,7 @@ public class DeployCommand implements ICommand {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * Read in the HAM XML document from the given
 	 * application bundle.
@@ -230,7 +230,7 @@ public class DeployCommand implements ICommand {
 		}
 		return list.item(0).getTextContent();
 	}
-	
+
 	@Override
 	public String getKey() {
 		return "deploy";

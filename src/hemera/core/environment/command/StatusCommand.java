@@ -1,8 +1,5 @@
 package hemera.core.environment.command;
 
-import java.io.File;
-
-import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.UEnvironment;
 
@@ -18,11 +15,8 @@ public class StatusCommand implements ICommand {
 
 	@Override
 	public void execute(final String[] args) throws Exception {
-		// Check if PID file exists.
-		final String binDir = UEnvironment.instance.getInstalledBinDir();
-		final String path = binDir + EEnvironment.JSVCPIDFile.value;
-		final File pidFile = new File(path);
-		if (pidFile.exists()) {
+		final boolean running = UEnvironment.instance.isRunning();
+		if (running) {
 			System.out.println("Hemera runtime environment is currently running.");
 		} else {
 			System.out.println("Hemera runtime environment is not running.");
