@@ -238,6 +238,6 @@ public class InstallCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " [The path to install the environment]";
+		return this.getKey() + " \"The path to install the environment\"";
 	}
 }

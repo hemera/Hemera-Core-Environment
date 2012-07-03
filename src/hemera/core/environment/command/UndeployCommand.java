@@ -45,6 +45,6 @@ public class UndeployCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " [The name of the application to undeploy]";
+		return this.getKey() + " \"The name of the application to undeploy\"";
 	}
 }

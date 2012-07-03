@@ -238,6 +238,6 @@ public class DeployCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " [The path to the bundle (hab) file]";
+		return this.getKey() + " \"The path to the bundle (hab) file\"";
 	}
 }

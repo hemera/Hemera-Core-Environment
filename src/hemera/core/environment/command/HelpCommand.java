@@ -15,6 +15,9 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public void execute(final String[] args) throws Exception {
+		System.out.println("Commands follow the pattern below with arguments separated by a space:");
+		System.out.println("hemera COMMAND ARGs\n");
+		// Print out commands.
 		final ECommand[] commands = ECommand.values();
 		for (int i = 0; i < commands.length; i++) {
 			final ECommand command = commands[i];

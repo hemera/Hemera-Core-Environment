@@ -209,6 +209,6 @@ public class BundleCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " [The path to the bundle model (hbm) file, The path put the final bundle file]";
+		return this.getKey() + " \"The path to the bundle model (hbm) file\" \"The path to put the final bundle file\"";
 	}
 }
