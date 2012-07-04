@@ -1,15 +1,15 @@
 # Hemera
 Created by **Yi Wang (Neakor)**
 
+**Please note that this is one of the building blocks of the Hemera
+Application Platform. Please refer to [Hemera-Release](https://github.com/hemera/Hemera-Release)
+for the stable releases and documentation.**
+
 # Hemera - Core Environment
 
 **Hemera - Core Environment** provides the access to various system
 functionalities including platform installation and un-installation,
 runtime start and stop, application bundling, deployment and removal.
-
-**Please note that this is one of the building blocks of the Hemera
-Application Platform. Please refer to [Hemera-Release](https://github.com/hemera/Hemera-Release)
-for the stable releases and documentation.**
 
 # License
 
