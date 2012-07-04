@@ -1,113 +1,15 @@
 # Hemera
 Created by **Yi Wang (Neakor)**
 
-## Introdction
-
-Hemera is a high-performance, lightweight, RESTful consumer server application
-development platform based on the Java SE platform. It aims to help consumer
-application developers to focus on their application specific logic development
-without having to worry about the low level system details. Hemera provides
-guidences and enforcements to application server architecture through its
-application extension interface, to help improve mainability and scalability.
-
-## Design Requirements, Features and Principles
-
-1. Provide high throughput, high concurrency and high scalability.
-2. Extremely easy to use to develop RESTful consumer application server.
-3. Provide architectrual guidences and enforcements to help improve software
-maintainability and conform to REST principles.
-4. Provide complete application packaging, deployment and hosting solutions.
-5. Modular design to allow extensions and individual project usages.
-
-## Core Concepts
-
-### Runtime
-
-Hemera runtime is the application hosting environment. It is run in a daemon process
-of the Java VM. The runtime provides various system level services such as the
-connection listener, connection handler and execution service. All the hosted
-applications are run within this JVM process. The runtime can be controlled
-via hemera commands and the runtime handle injected to hosted application modules.
-
-### Execution Service
-
-Execution service is the core layer of the runtime environment. It is essentially
-a highly performant thread-pool that executes all aspects of the runtime, and its
-hosted applications. There are two types of execution services provided. By default
-the runtime uses the Assisted Execution Servcie, which has a fixed number of
-executor threads that are grouped together to implement the work-stealing design.
-This is the preferred and more performant option and in some cases, it can help
-the system to recover from deadlocks. You may choose to use the scalable execution
-service option, and in some cases, this may provide a more cost-effective solution.
-For more information on these variations, please refer to their Java documentation.
-
-### Execution Service Listener
-
-### Exception Handler
-
-### Connection Listener and Handler
-
-Connection listener and handler is a system level service that you won't need to
-interact typically. If you are curious on what they do and how they work, read on.
-Otherwise, move on to the next section :) A connection listener is provided by
-the runtime to accept incoming connections. When a new connection is established,
-a connection handler is created to provide dedicated handling of that connection.
-The connection handler properly routes requests to their corresponding modules
-and processors for processing. This system level is implemented with high
-concurrency to allow highly concurrent client request handling. This design
-allows the server to handle a large number of clients concurrently, while providing
-high throughput.
-
-### Application
-
-A Hemera application is composed of a set of modules, each representing a REST
-resource that can be accessed via Http or Https protocols. An application hosted
-by the Hemera platform is defined by its Hemera Bundle Model (hbm) file described
-below.
-
-### Application Module
-
-A Hemera application module is a direct representation of an application REST
-resource. It is composed of a set of processors that provides the logic to
-interact with the resource and may contain state information of the resource.
-
-### Processor
-
-A processor encapsulates a set of logic operations that provides the means to interact
-with an application REST resource, a module. This is where all of your application
-logic should be encapsulated. A processor must belong to a specific module.
-
-## Hemera Commands
-
-Hemera exports its binary path to your shell profile that is accessable to all
-user accounts in your server OS. Similar to Maven, you can run Hemera commands
-by executing "hemera COMMAND ARGUMENTS" in a terminal. Arguments to a command
-should be separated by the space character.
-
-### Installation
-
-1. Download a release from here: TODO
-2. Unzip the downloaded release anywhere on your system.
-3. Open a terminal and cd to the unzipped directory.
-4. Run "./hemera install YOUR_DISIRED_HEMERA_HOME_DIRECTORY"
-5. Follow the instructions: run "source /etc/profile" or restart shell session to
-allow the newly exported path to take effect.
-6. Done :)
-
-### Uninstallation
-
-1. Open a terminal and run "hemera uninstall"
-2. Follow the instructions: run "source /etc/profile" or restart shell session to
-remove the hemera path.
-
-### Start Runtime
-TODO
-
 # Hemera - Core Environment
 
 **Hemera - Core Environment** provides the access to various system
-functionalities including platform installation and un-installation, runtime
-start and stop, application bundling, deployment and removal.
+functionalities including platform installation and un-installation,
+runtime start and stop, application bundling, deployment and removal.
+
+**Please note that this is one of the building blocks of the Hemera
+Application Platform. Please refer to [Hemera-Release](https://github.com/hemera/Hemera-Release)
+for the stable releases and documentation.**
 
 # License
 
