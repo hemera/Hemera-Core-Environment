@@ -97,6 +97,12 @@ public class ConfigRuntime {
 	 */
 	public Element toXML(final Document document) {
 		final Element runtime = document.createElement(KConfigRuntime.Root.tag);
+		// Launcher tag.
+		final Element launcher = document.createElement(KConfigRuntime.Launcher.tag);
+		if (this.launcher != null) {
+			launcher.setTextContent(this.launcher);
+		}
+		runtime.appendChild(launcher);
 		// Execution service tag.
 		final Element executionService = this.execution.toXML(document);
 		runtime.appendChild(executionService);

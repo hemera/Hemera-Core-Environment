@@ -77,11 +77,11 @@ public enum JSVCScriptGenerator {
 	private String generateStopScript(final String homeDir, final Configuration config) throws SAXException, IOException, ParserConfigurationException {
 		final String header = this.buildHeader(homeDir);
 		final String classpath = this.buildClasspath(homeDir);
-		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
+		final String footer = this.buildFooter(homeDir, config);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -stop -wait 10 -cp ").append(classpath).append(" ");
-		builder.append(config.runtime.launcher).append(configPath).append("\n");
+		builder.append(footer);
 		return builder.toString();
 	}
 
@@ -104,11 +104,11 @@ public enum JSVCScriptGenerator {
 	private String generateStartScript(final String homeDir, final Configuration config) throws SAXException, IOException, ParserConfigurationException {
 		final String header = this.buildHeader(homeDir);
 		final String classpath = this.buildClasspath(homeDir);
-		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
+		final String footer = this.buildFooter(homeDir, config);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -wait 10 -cp ").append(classpath).append(" ");
-		builder.append(config.runtime.launcher).append(configPath).append("\n");
+		builder.append(footer);
 		return builder.toString();
 	}
 
@@ -197,5 +197,21 @@ public enum JSVCScriptGenerator {
 			builder.append(file.getAbsolutePath());
 			builder.append(File.pathSeparator);
 		}
+	}
+	
+	/**
+	 * Build the footer section of the script based on
+	 * the specified environment configuration.
+	 * @param homeDir The <code>String</code> home
+	 * directory.
+	 * @param config The <code>Configuration</code>.
+	 * @return The footer <code>String</code> value.
+	 */
+	private String buildFooter(final String homeDir, final Configuration config) {
+		final String launcher = (config.runtime.launcher!=null) ? config.runtime.launcher : "hemera.ext.apache.ApacheRuntimeLauncher";
+		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
+		final StringBuilder builder = new StringBuilder();
+		builder.append(launcher).append(" ").append(configPath).append("\n");
+		return builder.toString();
 	}
 }
