@@ -114,4 +114,9 @@ public enum ECommand implements ICommand {
 	public String getDescription() {
 		return this.command.getDescription();
 	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return this.command.getArgsDescription();
+	}
 }

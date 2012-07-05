@@ -30,6 +30,11 @@ public class StatusCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey();
+		return "Check the running status of the runtime environment.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return null;
 	}
 }

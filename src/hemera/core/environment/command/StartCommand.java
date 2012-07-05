@@ -19,17 +19,23 @@ public class StartCommand implements ICommand {
 
 	@Override
 	public void execute(final String[] args) throws Exception {
-		// Execute the script as root.
-		System.out.println("Starting Hemera runtime environment...");
-		final String binDir = UEnvironment.instance.getInstalledBinDir();
-		final ShellResult result = Shell.instance.executeAsRoot(binDir+EEnvironment.JSVCStartScriptFile.value);
-		if (result.code != 0) {
-			System.err.println("Executing JSVC script failed: " + result.code);
-			System.err.println(result.output);
+		// Check if runtime is running.
+		final boolean running = UEnvironment.instance.isRunning();
+		if (running) {
+			System.out.println("Runtime environment is already running.");
+		} else {
+			// Execute the script as root.
+			System.out.println("Starting Hemera runtime environment...");
+			final String binDir = UEnvironment.instance.getInstalledBinDir();
+			final ShellResult result = Shell.instance.executeAsRoot(binDir+EEnvironment.JSVCStartScriptFile.value);
+			if (result.code != 0) {
+				System.err.println("Executing JSVC script failed: " + result.code);
+				System.err.println(result.output);
+			}
+			else System.out.println("Hemera runtime environment is now running.");
 		}
-		else System.out.println("Hemera runtime environment is now running.");
 	}
-	
+
 	@Override
 	public String getKey() {
 		return "start";
@@ -37,6 +43,11 @@ public class StartCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey();
+		return "Start the runtime environment if it is not running already.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return null;
 	}
 }

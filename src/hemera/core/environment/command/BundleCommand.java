@@ -209,6 +209,14 @@ public class BundleCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " \"The path to the bundle model (hbm) file\" \"The path to put the final bundle file\"";
+		return "Create a Hemera Application Bundle (hab).";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return new String[] {
+				"hbmFile", "The path to the Hemera Bundle Model (hbm) file",
+				"targetDir", "The directory to put the created bundle file"
+		};
 	}
 }

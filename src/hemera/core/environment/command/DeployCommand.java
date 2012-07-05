@@ -240,6 +240,13 @@ public class DeployCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " \"The path to the bundle (hab) file\"";
+		return "Deploy the specified application bundle.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return new String[] {
+				"habFile", "The path to the Hemera Application Bundle (hab) file"
+		};
 	}
 }

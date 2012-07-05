@@ -47,6 +47,11 @@ public class StopCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey();
+		return "Stop the runtime environment if it is running.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return null;
 	}
 }

@@ -75,6 +75,11 @@ public class UninstallCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey();
+		return "Uninstall the runtime environment and remove all files.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return null;
 	}
 }

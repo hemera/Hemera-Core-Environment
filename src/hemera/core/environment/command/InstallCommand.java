@@ -239,6 +239,13 @@ public class InstallCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " \"The path to install the environment\"";
+		return "Install the Hemera Application Platform.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return new String[] {
+				"homeDir", "The path of where to install the environment"
+		};
 	}
 }

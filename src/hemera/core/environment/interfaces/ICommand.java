@@ -26,10 +26,17 @@ public interface ICommand {
 	public String getKey();
 	
 	/**
-	 * Retrieve the description of this command that
-	 * includes the command key and all the required
-	 * arguments.
+	 * Retrieve the description of this command.
 	 * @return The <code>String</code> description.
 	 */
 	public String getDescription();
+	
+	/**
+	 * Retrieve all the arguments and their description
+	 * in a array with the description following the name
+	 * of the argument.
+	 * @return The <code>String</code> array of all
+	 * the arguments description.
+	 */
+	public String[] getArgsDescription();
 }

@@ -47,6 +47,13 @@ public class UndeployCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return this.getKey() + " \"The name of the application to undeploy\"";
+		return "Undeploy the specified application.";
+	}
+
+	@Override
+	public String[] getArgsDescription() {
+		return new String[] {
+				"appName", "The name of the application to undeploy. The name is case sensitive."
+		};
 	}
 }
