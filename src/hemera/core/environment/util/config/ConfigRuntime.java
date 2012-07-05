@@ -1,7 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
-import hemera.core.environment.util.UEnvironment;
+import hemera.core.environment.enumn.config.KConfigRuntime;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,9 +15,11 @@ import org.w3c.dom.NodeList;
  */
 public class ConfigRuntime {
 	/**
-	 * The <code>String</code> home directory.
+	 * The <code>String</code> launcher fully qualified
+	 * class name. <code>null</code> means the default
+	 * Apache runtime launcher is used.
 	 */
-	public final String homeDir;
+	public final String launcher;
 	/**
 	 * The <code>ConfigExecutionService</code> instance.
 	 */
@@ -28,20 +29,20 @@ public class ConfigRuntime {
 	 */
 	public final ConfigSocket socket;
 	/**
-	 * The <code>String</code> logging directory.
+	 * The <code>ConfigLogging</code> instance.
 	 */
-	public final String loggingDir;
+	public final ConfigLogging logging;
 	
 	/**
 	 * Constructor of <code>ConfigRuntime</code>.
-	 * @param homeDir the <code>String</code> home
-	 * directory.
+	 * @param homeDir the <code>String</code> install
+	 * home directory.
 	 */
 	public ConfigRuntime(final String homeDir) {
-		this.homeDir = homeDir;
+		this.launcher = null;
 		this.execution = new ConfigExecutionService();
 		this.socket = new ConfigSocket();
-		this.loggingDir = UEnvironment.instance.getLogDir(homeDir);
+		this.logging = new ConfigLogging(homeDir);
 	}
 	
 	/**
@@ -50,12 +51,11 @@ public class ConfigRuntime {
 	 * the root environment to parse from.
 	 */
 	public ConfigRuntime(final Element environment) {
-		this.homeDir = UEnvironment.instance.getInstalledHomeDir();
 		final Element runtime = this.parseRuntime(environment);
+		this.launcher = this.parseLauncher(runtime);
 		this.execution = new ConfigExecutionService(runtime);
 		this.socket = new ConfigSocket(runtime);
-		final Element logging = this.parseLogging(runtime);
-		this.loggingDir = this.parseLoggingDir(logging);
+		this.logging = new ConfigLogging(runtime);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class ConfigRuntime {
 	 * @return The runtime <code>Element</code>.
 	 */
 	private Element parseRuntime(final Element environment) {
-		final NodeList list = environment.getElementsByTagName(KConfiguration.Runtime.tag);
+		final NodeList list = environment.getElementsByTagName(KConfigRuntime.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid environment configuration. Must contain one runtime tag.");
 		}
@@ -73,31 +73,19 @@ public class ConfigRuntime {
 	}
 	
 	/**
-	 * Parse the logging tag.
+	 * Parse the launcher class name value.
 	 * @param runtime The <code>Element</code> of the
 	 * runtime tag to parse from.
-	 * @return The logging <code>Element</code>.
-	 */
-	private Element parseLogging(final Element runtime) {
-		final NodeList list = runtime.getElementsByTagName(KConfiguration.Logging.tag);
-		if (list == null || list.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid runtime configuration. Must contain one logging tag.");
-		}
-		return (Element)list.item(0);
-	}
-	
-	/**
-	 * Parse the logging directory value.
-	 * @param logging The <code>Element</code> of the
-	 * logging tag to parse from.
 	 * @return The <code>String</code> value.
 	 */
-	private String parseLoggingDir(final Element logging) {
-		final NodeList list = logging.getElementsByTagName(KConfiguration.LoggingDirectory.tag);
+	private String parseLauncher(final Element runtime) {
+		final NodeList list = runtime.getElementsByTagName(KConfigRuntime.Launcher.tag);
 		if (list == null || list.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid logging configuration. Must contain one directory tag.");
+			throw new IllegalArgumentException("Invalid runtime configuration. Must contain one launcher tag.");
 		}
-		return list.item(0).getTextContent();
+		final String text = list.item(0).getTextContent();
+		if (text == null || text.isEmpty()) return null;
+		else return text;
 	}
 	
 	/**
@@ -108,7 +96,7 @@ public class ConfigRuntime {
 	 * configuration.
 	 */
 	public Element toXML(final Document document) {
-		final Element runtime = document.createElement(KConfiguration.Runtime.tag);
+		final Element runtime = document.createElement(KConfigRuntime.Root.tag);
 		// Execution service tag.
 		final Element executionService = this.execution.toXML(document);
 		runtime.appendChild(executionService);
@@ -116,24 +104,8 @@ public class ConfigRuntime {
 		final Element socket = this.socket.toXML(document);
 		runtime.appendChild(socket);
 		// Logging tag.
-		final Element logging = this.buildLoggingTag(document);
+		final Element logging = this.logging.toXML(document);
 		runtime.appendChild(logging);
 		return runtime;
-	}
-	
-	/**
-	 * Create the logging configuration tag.
-	 * @param document The <code>Document</code> to
-	 * create the new tags from.
-	 * @return The <code>Element</code> for logging
-	 * configuration.
-	 */
-	private Element buildLoggingTag(final Document document) {
-		final Element logging = document.createElement(KConfiguration.Logging.tag);
-		// Directory tag.
-		final Element directory = document.createElement(KConfiguration.LoggingDirectory.tag);
-		directory.setTextContent(this.loggingDir);
-		logging.appendChild(directory);
-		return logging;
 	}
 }

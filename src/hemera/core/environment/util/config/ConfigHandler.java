@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigHandler;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,7 +53,7 @@ public class ConfigHandler {
 	 * @return The exception handler <code>Element</code>.
 	 */
 	private Element parseHandler(final Element execution) {
-		final NodeList list = execution.getElementsByTagName(KConfiguration.ExceptionHandler.tag);
+		final NodeList list = execution.getElementsByTagName(KConfigHandler.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid execution service configuration. Must contain one exception handler tag.");
 		}
@@ -67,7 +67,7 @@ public class ConfigHandler {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseJarFile(final Element handler) {
-		final NodeList list = handler.getElementsByTagName(KConfiguration.ExceptionHandlerJarFile.tag);
+		final NodeList list = handler.getElementsByTagName(KConfigHandler.JarFile.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid exception handler configuration. Must contain one Jar file tag.");
 		}
@@ -83,7 +83,7 @@ public class ConfigHandler {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseClassname(final Element handler) {
-		final NodeList list = handler.getElementsByTagName(KConfiguration.ExceptionHandlerClassname.tag);
+		final NodeList list = handler.getElementsByTagName(KConfigHandler.Classname.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid exception handler configuration. Must contain one class name tag.");
 		}
@@ -101,15 +101,15 @@ public class ConfigHandler {
 	 * handler.
 	 */
 	public Element toXML(final Document document) {
-		final Element handler = document.createElement(KConfiguration.ExceptionHandler.tag);
+		final Element handler = document.createElement(KConfigHandler.Root.tag);
 		// Jar tag.
-		final Element jar = document.createElement(KConfiguration.ExceptionHandlerJarFile.tag);
+		final Element jar = document.createElement(KConfigHandler.JarFile.tag);
 		if (this.jarLocation != null) {
 			jar.setTextContent(this.jarLocation);
 		}
 		handler.appendChild(jar);
 		// Class name tag.
-		final Element classname = document.createElement(KConfiguration.ExceptionHandlerClassname.tag);
+		final Element classname = document.createElement(KConfigHandler.Classname.tag);
 		if (this.classname != null) {
 			classname.setTextContent(this.classname);
 		}

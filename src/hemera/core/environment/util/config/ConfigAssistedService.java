@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigAssistedService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +60,7 @@ public class ConfigAssistedService {
 	 * @return The assisted service <code>Element</code>.
 	 */
 	private Element parseAssisted(final Element execution) {
-		final NodeList list = execution.getElementsByTagName(KConfiguration.AssistedService.tag);
+		final NodeList list = execution.getElementsByTagName(KConfigAssistedService.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid execution service configuration. Must contain one assisted service tag.");
 		}
@@ -74,7 +74,7 @@ public class ConfigAssistedService {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseExecutorCount(final Element assisted) {
-		final NodeList list = assisted.getElementsByTagName(KConfiguration.AssistedServiceExecutorCount.tag);
+		final NodeList list = assisted.getElementsByTagName(KConfigAssistedService.ExecutorCount.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid assisted service configuration. Must contain one executor count tag.");
 		}
@@ -88,7 +88,7 @@ public class ConfigAssistedService {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseMaxBufferSize(final Element assisted) {
-		final NodeList list = assisted.getElementsByTagName(KConfiguration.AssistedServiceMaxBufferSize.tag);
+		final NodeList list = assisted.getElementsByTagName(KConfigAssistedService.MaxBufferSize.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid assisted service configuration. Must contain one maximum buffer size tag.");
 		}
@@ -102,7 +102,7 @@ public class ConfigAssistedService {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseIdleTime(final Element assisted) {
-		final NodeList list = assisted.getElementsByTagName(KConfiguration.AssistedServiceIdleTime.tag);
+		final NodeList list = assisted.getElementsByTagName(KConfigAssistedService.IdleTime.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid assisted service configuration. Must contain one idle time tag.");
 		}
@@ -117,17 +117,17 @@ public class ConfigAssistedService {
 	 * service.
 	 */
 	public Element toXML(final Document document) {
-		final Element assisted = document.createElement(KConfiguration.AssistedService.tag);
+		final Element assisted = document.createElement(KConfigAssistedService.Root.tag);
 		// Executor count tag.
-		final Element executorCount = document.createElement(KConfiguration.AssistedServiceExecutorCount.tag);
+		final Element executorCount = document.createElement(KConfigAssistedService.ExecutorCount.tag);
 		executorCount.setTextContent(String.valueOf(this.executorCount));
 		assisted.appendChild(executorCount);
 		// Buffer size tag.
-		final Element bufferSize = document.createElement(KConfiguration.AssistedServiceMaxBufferSize.tag);
+		final Element bufferSize = document.createElement(KConfigAssistedService.MaxBufferSize.tag);
 		bufferSize.setTextContent(String.valueOf(this.maxBufferSize));
 		assisted.appendChild(bufferSize);
 		// Idle time tag.
-		final Element idleTime = document.createElement(KConfiguration.AssistedServiceIdleTime.tag);
+		final Element idleTime = document.createElement(KConfigAssistedService.IdleTime.tag);
 		idleTime.setTextContent(this.idleTime);
 		assisted.appendChild(idleTime);
 		return assisted;

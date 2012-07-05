@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigScalableService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +60,7 @@ public class ConfigScalableService {
 	 * @return The scalable service <code>Element</code>.
 	 */
 	private Element parseScalable(final Element execution) {
-		final NodeList list = execution.getElementsByTagName(KConfiguration.ScalableService.tag);
+		final NodeList list = execution.getElementsByTagName(KConfigScalableService.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid execution service configuration. Must contain one scalable service tag.");
 		}
@@ -74,7 +74,7 @@ public class ConfigScalableService {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseMinExecutor(final Element scalable) {
-		final NodeList list = scalable.getElementsByTagName(KConfiguration.ScalableServiceMinExecutor.tag);
+		final NodeList list = scalable.getElementsByTagName(KConfigScalableService.MinExecutor.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid scalable service configuration. Must contain one minimum executor count tag.");
 		}
@@ -88,7 +88,7 @@ public class ConfigScalableService {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseMaxExecutor(final Element scalable) {
-		final NodeList list = scalable.getElementsByTagName(KConfiguration.ScalableServiceMaxExecutor.tag);
+		final NodeList list = scalable.getElementsByTagName(KConfigScalableService.MaxExecutor.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid scalable service configuration. Must contain one maximum executor count tag.");
 		}
@@ -102,7 +102,7 @@ public class ConfigScalableService {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseTimeout(final Element scalable) {
-		final NodeList list = scalable.getElementsByTagName(KConfiguration.ScalableServiceTimeout.tag);
+		final NodeList list = scalable.getElementsByTagName(KConfigScalableService.Timeout.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid scalable service configuration. Must contain one timeout tag.");
 		}
@@ -117,17 +117,17 @@ public class ConfigScalableService {
 	 * service.
 	 */
 	public Element toXML(final Document document) {
-		final Element scalable = document.createElement(KConfiguration.ScalableService.tag);
+		final Element scalable = document.createElement(KConfigScalableService.Root.tag);
 		// Minimum executor count tag.
-		final Element minimum = document.createElement(KConfiguration.ScalableServiceMinExecutor.tag);
+		final Element minimum = document.createElement(KConfigScalableService.MinExecutor.tag);
 		minimum.setTextContent(String.valueOf(this.minExecutor));
 		scalable.appendChild(minimum);
 		// Maximum executor count tag.
-		final Element maximum = document.createElement(KConfiguration.ScalableServiceMaxExecutor.tag);
+		final Element maximum = document.createElement(KConfigScalableService.MaxExecutor.tag);
 		maximum.setTextContent(String.valueOf(this.maxExecutor));
 		scalable.appendChild(maximum);
 		// Time out tag.
-		final Element timeout = document.createElement(KConfiguration.ScalableServiceTimeout.tag);
+		final Element timeout = document.createElement(KConfigScalableService.Timeout.tag);
 		timeout.setTextContent(this.timeout);
 		scalable.appendChild(timeout);
 		return scalable;

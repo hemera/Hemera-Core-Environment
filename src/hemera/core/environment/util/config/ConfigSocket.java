@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigSocket;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,7 +58,7 @@ public class ConfigSocket {
 	 * @return The socket <code>Element</code>.
 	 */
 	private Element parseSocket(final Element runtime) {
-		final NodeList list = runtime.getElementsByTagName(KConfiguration.Socket.tag);
+		final NodeList list = runtime.getElementsByTagName(KConfigSocket.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid runtime configuration. Must contain one socket tag.");
 		}
@@ -72,7 +72,7 @@ public class ConfigSocket {
 	 * @return The <code>int</code> value.
 	 */
 	private int parsePort(final Element socket) {
-		final NodeList list = socket.getElementsByTagName(KConfiguration.SocketPort.tag);
+		final NodeList list = socket.getElementsByTagName(KConfigSocket.Port.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid socket configuration. Must contain one port tag.");
 		}
@@ -86,7 +86,7 @@ public class ConfigSocket {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseTimeout(final Element socket) {
-		final NodeList list = socket.getElementsByTagName(KConfiguration.SocketTimeout.tag);
+		final NodeList list = socket.getElementsByTagName(KConfigSocket.Timeout.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid socket configuration. Must contain one timeout tag.");
 		}
@@ -100,7 +100,7 @@ public class ConfigSocket {
 	 * @return The <code>int</code> value.
 	 */
 	private int parseBufferSize(final Element socket) {
-		final NodeList list = socket.getElementsByTagName(KConfiguration.SocketBufferSize.tag);
+		final NodeList list = socket.getElementsByTagName(KConfigSocket.BufferSize.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid socket configuration. Must contain one buffer size tag.");
 		}
@@ -115,17 +115,17 @@ public class ConfigSocket {
 	 * configuration.
 	 */
 	public Element toXML(final Document document) {
-		final Element socket = document.createElement(KConfiguration.Socket.tag);
+		final Element socket = document.createElement(KConfigSocket.Root.tag);
 		// Port tag.
-		final Element port = document.createElement(KConfiguration.SocketPort.tag);
+		final Element port = document.createElement(KConfigSocket.Port.tag);
 		port.setTextContent(String.valueOf(this.port));
 		socket.appendChild(port);
 		// Timeout tag.
-		final Element timeout = document.createElement(KConfiguration.SocketTimeout.tag);
+		final Element timeout = document.createElement(KConfigSocket.Timeout.tag);
 		timeout.setTextContent(String.valueOf(this.timeout));
 		socket.appendChild(timeout);
 		// Buffer size tag.
-		final Element buffersize = document.createElement(KConfiguration.SocketBufferSize.tag);
+		final Element buffersize = document.createElement(KConfigSocket.BufferSize.tag);
 		buffersize.setTextContent(String.valueOf(this.bufferSize));
 		socket.appendChild(buffersize);
 		return socket;

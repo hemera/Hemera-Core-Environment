@@ -1,7 +1,7 @@
 package hemera.core.environment.util.config;
 
 import hemera.core.environment.enumn.EEnvironment;
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfiguration;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

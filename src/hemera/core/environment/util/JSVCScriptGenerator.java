@@ -34,6 +34,8 @@ public enum JSVCScriptGenerator {
 	 * directory derived from the specified home.
 	 * @param homeDir The <code>String</code> runtime
 	 * home directory.
+	 * @param config The <code>Configuration</code>
+	 * used by the environment.
 	 * @throws IOException If file processing failed.
 	 * @throws ParserConfigurationException If parsing
 	 * configuration failed.
@@ -42,15 +44,15 @@ public enum JSVCScriptGenerator {
 	 * @throws InterruptedException If the command was
 	 * interrupted.
 	 */
-	public void exportScripts(final String homeDir) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
+	public void exportScripts(final String homeDir, final Configuration config) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
 		final String binDir = UEnvironment.instance.getBinDir(homeDir);
 		// Start script.
-		final String startScriptContents = JSVCScriptGenerator.instance.generateStartScript(homeDir);
+		final String startScriptContents = JSVCScriptGenerator.instance.generateStartScript(homeDir, config);
 		final String startTarget = binDir + EEnvironment.JSVCStartScriptFile.value;
 		FileUtils.instance.writeAsString(startScriptContents, startTarget);
 		Shell.instance.makeExecutable(startTarget);
 		// Stop script.
-		final String stopScriptContents = JSVCScriptGenerator.instance.generateStopScript(homeDir);
+		final String stopScriptContents = JSVCScriptGenerator.instance.generateStopScript(homeDir, config);
 		final String stopTarget = binDir + EEnvironment.JSVCStopScriptFile.value;
 		FileUtils.instance.writeAsString(stopScriptContents, stopTarget);
 		Shell.instance.makeExecutable(stopTarget);
@@ -62,6 +64,8 @@ public enum JSVCScriptGenerator {
 	 * deployed applications and their libraries.
 	 * @param homeDir The <code>String</code> runtime
 	 * home directory.
+	 * @param config The <code>Configuration</code>
+	 * used by the environment.
 	 * @return The <code>String</code> script.
 	 * @throws SAXException If loading configuration
 	 * from file failed.
@@ -70,14 +74,14 @@ public enum JSVCScriptGenerator {
 	 * @throws ParserConfigurationException If loading
 	 * configuration from file failed.
 	 */
-	private String generateStopScript(final String homeDir) throws SAXException, IOException, ParserConfigurationException {
+	private String generateStopScript(final String homeDir, final Configuration config) throws SAXException, IOException, ParserConfigurationException {
 		final String header = this.buildHeader(homeDir);
 		final String classpath = this.buildClasspath(homeDir);
 		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -stop -wait 10 -cp ").append(classpath).append(" ");
-		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
+		builder.append(config.runtime.launcher).append(configPath).append("\n");
 		return builder.toString();
 	}
 
@@ -87,6 +91,8 @@ public enum JSVCScriptGenerator {
 	 * deployed applications and their libraries.
 	 * @param homeDir The <code>String</code> runtime
 	 * home directory.
+	 * @param config The <code>Configuration</code>
+	 * used by the environment.
 	 * @return The <code>String</code> script.
 	 * @throws SAXException If loading configuration
 	 * from file failed.
@@ -95,14 +101,14 @@ public enum JSVCScriptGenerator {
 	 * @throws ParserConfigurationException If loading
 	 * configuration from file failed.
 	 */
-	private String generateStartScript(final String homeDir) throws SAXException, IOException, ParserConfigurationException {
+	private String generateStartScript(final String homeDir, final Configuration config) throws SAXException, IOException, ParserConfigurationException {
 		final String header = this.buildHeader(homeDir);
 		final String classpath = this.buildClasspath(homeDir);
 		final String configPath = UEnvironment.instance.getConfigurationFile(homeDir);
 		// Build script.
 		final StringBuilder builder = new StringBuilder();
 		builder.append(header).append(" -wait 10 -cp ").append(classpath).append(" ");
-		builder.append("hemera.ext.apache.ApacheRuntimeLauncher ").append(configPath).append("\n");
+		builder.append(config.runtime.launcher).append(configPath).append("\n");
 		return builder.toString();
 	}
 

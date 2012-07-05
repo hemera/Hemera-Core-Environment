@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigJVM;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,7 +55,7 @@ public class ConfigJVM {
 	 * @return The JVM <code>Element</code> tag.
 	 */
 	private Element parseJVM(final Element environment) {
-		final NodeList list = environment.getElementsByTagName(KConfiguration.JVM.tag);
+		final NodeList list = environment.getElementsByTagName(KConfigJVM.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid environment configuration. Must contain one JVM tag.");
 		}
@@ -69,7 +69,7 @@ public class ConfigJVM {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseMinMemory(final Element jvm) {
-		final NodeList list = jvm.getElementsByTagName(KConfiguration.MemoryMinimum.tag);
+		final NodeList list = jvm.getElementsByTagName(KConfigJVM.MemoryMinimum.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid JVM configuration. Must contain one minimum memory tag.");
 		}
@@ -83,7 +83,7 @@ public class ConfigJVM {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseMaxMemory(final Element jvm) {
-		final NodeList list = jvm.getElementsByTagName(KConfiguration.MemoryMaximum.tag);
+		final NodeList list = jvm.getElementsByTagName(KConfigJVM.MemoryMaximum.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid JVM configuration. Must contain one maximum memory tag.");
 		}
@@ -97,7 +97,7 @@ public class ConfigJVM {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseFileEncoding(final Element jvm) {
-		final NodeList list = jvm.getElementsByTagName(KConfiguration.FileEncoding.tag);
+		final NodeList list = jvm.getElementsByTagName(KConfigJVM.FileEncoding.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid JVM configuration. Must contain one maximum memory tag.");
 		}
@@ -112,17 +112,17 @@ public class ConfigJVM {
 	 * configuration.
 	 */
 	public Element toXML(final Document document) {
-		final Element jvm = document.createElement(KConfiguration.JVM.tag);
+		final Element jvm = document.createElement(KConfigJVM.Root.tag);
 		// Minimum memory tag.
-		final Element memoryMin = document.createElement(KConfiguration.MemoryMinimum.tag);
+		final Element memoryMin = document.createElement(KConfigJVM.MemoryMinimum.tag);
 		memoryMin.setTextContent(this.memoryMin);
 		jvm.appendChild(memoryMin);
 		// Maximum memory tag.
-		final Element memoryMax = document.createElement(KConfiguration.MemoryMaximum.tag);
+		final Element memoryMax = document.createElement(KConfigJVM.MemoryMaximum.tag);
 		memoryMax.setTextContent(this.memoryMax);
 		jvm.appendChild(memoryMax);
 		// File encoding tag.
-		final Element fileEncoding = document.createElement(KConfiguration.FileEncoding.tag);
+		final Element fileEncoding = document.createElement(KConfigJVM.FileEncoding.tag);
 		fileEncoding.setTextContent(this.fileEncoding);
 		jvm.appendChild(fileEncoding);
 		return jvm;

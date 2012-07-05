@@ -25,6 +25,7 @@ import hemera.core.environment.enumn.KBundleManifest;
 import hemera.core.environment.interfaces.ICommand;
 import hemera.core.environment.util.JSVCScriptGenerator;
 import hemera.core.environment.util.UEnvironment;
+import hemera.core.environment.util.config.Configuration;
 import hemera.core.utility.FileUtils;
 
 /**
@@ -67,7 +68,8 @@ public class DeployCommand implements ICommand {
 			// Update runtime scripts.
 			System.out.println("Updating scripts...");
 			final String homeDir = UEnvironment.instance.getInstalledHomeDir();
-			JSVCScriptGenerator.instance.exportScripts(homeDir);
+			final Configuration config = UEnvironment.instance.getConfiguration(homeDir);
+			JSVCScriptGenerator.instance.exportScripts(homeDir, config);
 			// Delete temp directory.
 			FileUtils.instance.delete(UEnvironment.instance.getInstalledTempDir());
 			System.out.println("Successfully deployed: " + this.parseAppName(ham));

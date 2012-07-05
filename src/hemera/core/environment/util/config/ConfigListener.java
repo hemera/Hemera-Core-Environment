@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigListener;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,7 +53,7 @@ public class ConfigListener {
 	 * @return The service listener <code>Element</code>.
 	 */
 	private Element parseListener(final Element execution) {
-		final NodeList list = execution.getElementsByTagName(KConfiguration.ExecutionListener.tag);
+		final NodeList list = execution.getElementsByTagName(KConfigListener.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid execution service configuration. Must contain one service listener tag.");
 		}
@@ -67,7 +67,7 @@ public class ConfigListener {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseJarFile(final Element listener) {
-		final NodeList list = listener.getElementsByTagName(KConfiguration.ExecutionListenerJarFile.tag);
+		final NodeList list = listener.getElementsByTagName(KConfigListener.JarFile.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid service listener configuration. Must contain one Jar file tag.");
 		}
@@ -83,7 +83,7 @@ public class ConfigListener {
 	 * @return The <code>String</code> value.
 	 */
 	private String parseClassname(final Element listener) {
-		final NodeList list = listener.getElementsByTagName(KConfiguration.ExecutionListenerClassname.tag);
+		final NodeList list = listener.getElementsByTagName(KConfigListener.Classname.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid service listener configuration. Must contain one class name tag.");
 		}
@@ -99,15 +99,15 @@ public class ConfigListener {
 	 * @return The listener <code>Element</code>.
 	 */
 	public Element toXML(final Document document) {
-		final Element listener = document.createElement(KConfiguration.ExecutionListener.tag);
+		final Element listener = document.createElement(KConfigListener.Root.tag);
 		// Jar tag.
-		final Element jar = document.createElement(KConfiguration.ExecutionListenerJarFile.tag);
+		final Element jar = document.createElement(KConfigListener.JarFile.tag);
 		if (this.jarLocation != null) {
 			jar.setTextContent(this.jarLocation);
 		}
 		listener.appendChild(jar);
 		// Class name tag.
-		final Element classname = document.createElement(KConfiguration.ExecutionListenerClassname.tag);
+		final Element classname = document.createElement(KConfigListener.Classname.tag);
 		if (this.classname != null) {
 			classname.setTextContent(this.classname);
 		}

@@ -49,7 +49,7 @@ public class InstallCommand implements ICommand {
 			final String binDir = this.createDirectories(homeDir);
 			// Create the configuration file.
 			System.out.println("Creating runtime environment configuration...");
-			this.createConfigFile(homeDir);
+			final Configuration config = this.createConfigFile(homeDir);
 			// Install internal libraries.
 			System.out.println("Installing internal libraries...");
 			this.installLibraries(binDir);
@@ -58,7 +58,7 @@ public class InstallCommand implements ICommand {
 			this.updateBinaries(binDir);
 			// Install JSVC scripts.
 			System.out.println("Generating scripts...");
-			JSVCScriptGenerator.instance.exportScripts(homeDir);
+			JSVCScriptGenerator.instance.exportScripts(homeDir, config);
 			// Export environment path.
 			System.out.println("Exporting environment path...");
 			this.exportEnvironment(binDir);
@@ -102,7 +102,7 @@ public class InstallCommand implements ICommand {
 	 * Create the environment configuration file.
 	 * @param homeDir The specified <code>String</code>
 	 * home directory.
-	 * @return The environment <code>File</code>.
+	 * @return The exported <code>Configuration</code>.
 	 * @throws IOException If any file processing
 	 * failed.
 	 * @throws ParserConfigurationException If XML
@@ -110,13 +110,14 @@ public class InstallCommand implements ICommand {
 	 * @throws TransformerException If writing XML
 	 * file failed.
 	 */
-	private File createConfigFile(final String homeDir) throws IOException, ParserConfigurationException, TransformerException {
+	private Configuration createConfigFile(final String homeDir) throws IOException, ParserConfigurationException, TransformerException {
 		// Generate the document based on default configuration.
 		final Configuration defaultConfig = new Configuration(homeDir);
 		final Document document = defaultConfig.toDocument();
 		// Write to file.
 		final String target = UEnvironment.instance.getConfigurationFile(homeDir);
-		return FileUtils.instance.writeDocument(document, target);
+		FileUtils.instance.writeDocument(document, target);
+		return defaultConfig;
 	}
 
 	/**

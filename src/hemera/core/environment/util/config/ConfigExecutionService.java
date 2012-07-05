@@ -1,6 +1,6 @@
 package hemera.core.environment.util.config;
 
-import hemera.core.environment.enumn.KConfiguration;
+import hemera.core.environment.enumn.config.KConfigExecutionService;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,7 +68,7 @@ public class ConfigExecutionService {
 	 * @return The execution <code>Element</code>.
 	 */
 	private Element parseExecutionService(final Element runtime) {
-		final NodeList list = runtime.getElementsByTagName(KConfiguration.ExecutionService.tag);
+		final NodeList list = runtime.getElementsByTagName(KConfigExecutionService.Root.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid runtime configuration. Must contain one execution service tag.");
 		}
@@ -82,7 +82,7 @@ public class ConfigExecutionService {
 	 * @return The <code>int</code> value.
 	 */
 	private boolean parseUseScalableService(final Element execution) {
-		final NodeList list = execution.getElementsByTagName(KConfiguration.UseScalableService.tag);
+		final NodeList list = execution.getElementsByTagName(KConfigExecutionService.UseScalableService.tag);
 		if (list == null || list.getLength() != 1) {
 			throw new IllegalArgumentException("Invalid execution service configuration. Must contain one use scalable service tag.");
 		}
@@ -97,9 +97,9 @@ public class ConfigExecutionService {
 	 * service.
 	 */
 	public Element toXML(final Document document) {
-		final Element executionService = document.createElement(KConfiguration.ExecutionService.tag);
+		final Element executionService = document.createElement(KConfigExecutionService.Root.tag);
 		// Use scalable service tag.
-		final Element useScalable = document.createElement(KConfiguration.UseScalableService.tag);
+		final Element useScalable = document.createElement(KConfigExecutionService.UseScalableService.tag);
 		useScalable.setTextContent(String.valueOf(false));
 		executionService.appendChild(useScalable);
 		// Listener tag.
