@@ -164,11 +164,19 @@ public class BundleCommand implements ICommand {
 		for (int i = 0; i < size; i++) {
 			final HBMModule module = modules.get(i);
 			final List<File> modulelibs = FileUtils.instance.getFiles(module.libDir);
-			// Exclude duplicates.
+			// Exclude duplicates based on name.
 			final int libsize = modulelibs.size();
 			for (int j = 0; j < libsize; j++) {
 				final File file = modulelibs.get(j);
-				if (!libFiles.contains(file)) libFiles.add(file);
+				boolean contains = false;
+				final int addedSize = libFiles.size();
+				for (int k = 0; k < addedSize; k++) {
+					if (libFiles.get(k).getName().equals(file.getName())) {
+						contains = true;
+						break;
+					}
+				}
+				if (!contains) libFiles.add(file);
 			}
 		}
 		// Package all files into a single Jar file.
