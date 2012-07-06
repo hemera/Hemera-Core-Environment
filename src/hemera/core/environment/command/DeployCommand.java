@@ -107,7 +107,8 @@ public class DeployCommand implements ICommand {
 	}
 
 	/**
-	 * Create the application directory.
+	 * Create the application directory. This will
+	 * first delete the existing directory.
 	 * @param ham The HAM XML <code>Document</code>.
 	 * @return The <code>String</code> application
 	 * directory.
@@ -115,6 +116,8 @@ public class DeployCommand implements ICommand {
 	private String createAppDir(final Document ham) throws IOException {
 		final String appName = this.parseAppName(ham);
 		final String path = UEnvironment.instance.getApplicationDir(appName);
+		// Delete existing first.
+		FileUtils.instance.delete(path);
 		// Create directory.
 		final File appDir = new File(path);
 		appDir.mkdirs();
@@ -240,7 +243,7 @@ public class DeployCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return "Deploy the specified application bundle.";
+		return "Deploy the specified application bundle, override existing application with the same name if there is one.";
 	}
 
 	@Override
