@@ -1,6 +1,7 @@
 package hemera.core.environment.command.bundle.ham;
 
 import hemera.core.environment.command.bundle.hbm.HBMModule;
+import hemera.core.utility.FileUtils;
 
 import java.io.File;
 
@@ -22,10 +23,15 @@ public class HAMModule {
 	 */
 	public final String classname;
 	/**
-	 * The <code>String</code> module configuration
-	 * file path.
+	 * The <code>String</code> optional module
+	 * configuration file path.
 	 */
 	public final String configFile;
+	/**
+	 * The <code>String</code> optional module resources
+	 * directory.
+	 */
+	public final String resourcesDir;
 
 	/**
 	 * Constructor of <code>HAMModule</code>.
@@ -47,6 +53,10 @@ public class HAMModule {
 		final NodeList configlist = node.getElementsByTagName(KHAM.ModuleConfigFile.tag);
 		if (configlist == null || configlist.getLength() <= 0) this.configFile = null;
 		else this.configFile = configlist.item(0).getTextContent();
+		// Optional resources directory.
+		final NodeList resourcesList = node.getElementsByTagName(KHAM.ModuleResourceDir.tag);
+		if (resourcesList == null || resourcesList.getLength() <= 0) this.resourcesDir = null;
+		else this.resourcesDir = resourcesList.item(0).getTextContent();
 	}
 
 	/**
@@ -59,6 +69,7 @@ public class HAMModule {
 	HAMModule(final HBMModule hbmModule) {
 		this.classname = hbmModule.classname;
 		this.configFile = hbmModule.configFile;
+		this.resourcesDir = hbmModule.resourcesDir;
 	}
 
 	@Override
@@ -87,17 +98,29 @@ public class HAMModule {
 		// Configuration file tag.
 		if (this.configFile != null && this.configFile.length() > 0) {
 			// Retrieve the configuration file name.
-			final Element config = document.createElement(KHAM.ModuleConfigFile.tag);
 			final int index = this.configFile.lastIndexOf(File.separator)+1;
 			final String configFileName = this.configFile.substring(index);
 			// Build configuration file path after deployment.
 			// HOME/apps/APPLICATION/MODULE/CONFIG.FILE
+			final Element config = document.createElement(KHAM.ModuleConfigFile.tag);
 			final StringBuilder builder = new StringBuilder();
 			builder.append(KHAM.PlaceholderAppsDir.tag);
 			builder.append(this.classname).append(File.separator);
 			builder.append(configFileName);
 			config.setTextContent(builder.toString());
 			module.appendChild(config);
+		}
+		// Resources directory.
+		if (this.resourcesDir != null && this.resourcesDir.length() > 0) {
+			// Build resources directory after deployment.
+			// HOME/apps/APPLICATION/MODULE/resources/
+			final Element resources = document.createElement(KHAM.ModuleResourceDir.tag);
+			final StringBuilder builder = new StringBuilder();
+			builder.append(KHAM.PlaceholderAppsDir.tag);
+			builder.append(this.classname).append(File.separator);
+			builder.append("resources");
+			resources.setTextContent(FileUtils.instance.getValidDir(builder.toString()));
+			module.appendChild(resources);
 		}
 		return module;
 	}

@@ -38,9 +38,13 @@ public enum KHBM {
 	 */
 	ModuleClassname("classname"),
 	/**
-	 * The module configuration file path tag.
+	 * The module optional configuration file path tag.
 	 */
-	ModuleConfigFile("config-file");
+	ModuleConfigFile("config-file"),
+	/**
+	 * The module optional resource directory tag.
+	 */
+	ModuleResourceDir("resource-dir");
 	
 	/**
 	 * The <code>String</code> tag.

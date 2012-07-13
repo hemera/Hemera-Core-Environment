@@ -30,9 +30,13 @@ public enum KHAM {
 	 */
 	ModuleClassname("classname"),
 	/**
-	 * The module configuration file path tag.
+	 * The module optional configuration file path tag.
 	 */
 	ModuleConfigFile("config-file"),
+	/**
+	 * The module optional resource directory tag.
+	 */
+	ModuleResourceDir("resource-dir"),
 	/**
 	 * The application directory place-holder that is
 	 * replaced with the proper application directory

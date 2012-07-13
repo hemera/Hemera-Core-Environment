@@ -28,16 +28,20 @@ public class UndeployCommand implements ICommand {
 		final String appName = args[0];
 		// Remove the application folder.
 		final String path = UEnvironment.instance.getApplicationDir(appName);
-		FileUtils.instance.delete(path);
-		// Regenerate JSVC scripts.
-		final String homeDir = UEnvironment.instance.getInstalledHomeDir();
-		final Configuration config = UEnvironment.instance.getConfiguration(homeDir);
-		JSVCScriptGenerator.instance.exportScripts(homeDir, config);
-		System.out.println(appName + " successfully removed.");
-		// Restart the runtime.
-		System.out.println("Hemera Runtime Environment will restart now...");
-		ECommand.Stop.execute(null);
-		ECommand.Start.execute(null);
+		final boolean removed = FileUtils.instance.delete(path);
+		if (!removed) {
+			System.err.println("No such application: " + appName);
+		} else {
+			// Regenerate JSVC scripts.
+			final String homeDir = UEnvironment.instance.getInstalledHomeDir();
+			final Configuration config = UEnvironment.instance.getConfiguration(homeDir);
+			JSVCScriptGenerator.instance.exportScripts(homeDir, config);
+			System.out.println(appName + " successfully removed.");
+			// Restart the runtime.
+			System.out.println("Hemera Runtime Environment will restart now...");
+			ECommand.Stop.execute(null);
+			ECommand.Start.execute(null);
+		}
 	}
 
 	@Override

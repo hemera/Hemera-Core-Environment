@@ -25,10 +25,15 @@ public class HBMModule {
 	 */
 	public final String classname;
 	/**
-	 * The <code>String</code> module configuration
-	 * file path.
+	 * The <code>String</code> optional module
+	 * configuration file path.
 	 */
 	public final String configFile;
+	/**
+	 * The <code>String</code> optional resources
+	 * directory.
+	 */
+	public final String resourcesDir;
 	
 	/**
 	 * Constructor of <code>HBMModule</code>.
@@ -62,6 +67,10 @@ public class HBMModule {
 		final NodeList configlist = node.getElementsByTagName(KHBM.ModuleConfigFile.tag);
 		if (configlist == null || configlist.getLength() <= 0) this.configFile = null;
 		else this.configFile = configlist.item(0).getTextContent();
+		// Optional resources directory.
+		final NodeList resourceList = node.getElementsByTagName(KHBM.ModuleResourceDir.tag);
+		if (resourceList == null || resourceList.getLength() <= 0) this.resourcesDir = null;
+		else this.resourcesDir = resourceList.item(0).getTextContent();
 	}
 	
 	@Override
@@ -72,7 +81,8 @@ public class HBMModule {
 			final boolean lib = this.libDir.equals(given.libDir);
 			final boolean classname = this.classname.equals(given.classname);
 			final boolean config = (this.configFile==null) ? (given.configFile==null) : this.configFile.equals(given.configFile);
-			return (src && lib && classname && config);
+			final boolean resources = (this.resourcesDir==null) ? (given.resourcesDir==null) : this.resourcesDir.equals(given.resourcesDir);
+			return (src && lib && classname && config && resources);
 		}
 		return false;
 	}

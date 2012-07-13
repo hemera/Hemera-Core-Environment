@@ -129,7 +129,7 @@ public class BundleCommand implements ICommand {
 		final ArrayList<File> classDirFileList = new ArrayList<File>(1);
 		classDirFileList.add(new File(classDir));
 		final File classjar = FileUtils.instance.jarFiles(classDirFileList, classjarPath);
-		// Package class Jar file and module configuration file into a module Jar file.
+		// Package class Jar file, configuration file and all resource files into a module Jar file.
 		final String modulejarPath = tempDir + module.classname + ".jar";
 		final ArrayList<File> modulefiles = new ArrayList<File>();
 		modulefiles.add(classjar);
@@ -139,6 +139,13 @@ public class BundleCommand implements ICommand {
 				throw new IllegalArgumentException("Module configuration file: " + module.configFile + " does not exist.");
 			}
 			modulefiles.add(configFile);
+		}
+		// Package module resource files into a Jar file.
+		if (module.resourcesDir != null) {
+			final List<File> resourceFiles = FileUtils.instance.getFiles(module.resourcesDir);
+			final String resourceTarget = tempDir + module.classname + "-resources.jar";
+			final File resourceJar = FileUtils.instance.jarFiles(resourceFiles, resourceTarget);
+			modulefiles.add(resourceJar);
 		}
 		final File modulejar = FileUtils.instance.jarFiles(modulefiles, modulejarPath);
 		// Remove the build directory.

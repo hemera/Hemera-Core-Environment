@@ -215,6 +215,17 @@ public class DeployCommand implements ICommand {
 			// Write all the contents of the module Jar file to the module directory.
 			final String moduleDir = appDir + classname + File.separator;
 			FileUtils.instance.writeAll(moduleFile, moduleDir);
+			// Retrieve the resources Jar file.
+			final File resourcesFile = new File(moduleDir+classname+"-resources.jar");
+			if (resourcesFile.exists()) {
+				// Create resources directory.
+				final File resourcesDir = new File(moduleDir+"resources/");
+				resourcesDir.mkdir();
+				// Write all the contents of resources Jar file to resources directory.
+				FileUtils.instance.writeAll(resourcesFile, resourcesDir.getAbsolutePath());
+				// Remove resources Jar file.
+				resourcesFile.delete();
+			}
 			// Delete the temporary module Jar file.
 			moduleFile.delete();
 		}
