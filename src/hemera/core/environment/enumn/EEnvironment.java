@@ -13,55 +13,23 @@ public enum EEnvironment {
 	 */
 	Version("1.0.0"),
 	/**
-	 * The script file name.
-	 */
-	ScriptFile("hemera"),
-	/**
-	 * The environment access path set in the shell
-	 * profile.
-	 */
-	ShellAccessPath("HEMERA"),
-	/**
 	 * The configuration XML file name under the home bin
 	 * directory.
 	 */
 	ConfigurationFile("hemera.conf"),
 	/**
-	 * The Hemera Application Bundle file extension.
+	 * The JSVC PID file.
 	 */
-	BundleExtension(".hab"),
+	JSVCPIDFile("jsvc.pid"),
 	/**
 	 * The Hemera Application model file extension.
 	 */
 	HAMExtension(".ham"),
 	/**
-	 * The Mac OSX JSVC executable file name.
+	 * The fully qualified class name of the default
+	 * runtime launcher.
 	 */
-	JSVCOSX("jsvc-osx"),
-	/**
-	 * The Linux JSVC executable file name.
-	 */
-	JSVCLinux("jsvc-linux"),
-	/**
-	 * The JSVC standard output file.
-	 */
-	JSVCOut("jsvc.out"),
-	/**
-	 * The JSVC error output file.
-	 */
-	JSVCError("jsvc.error"),
-	/**
-	 * The JSVC PID file.
-	 */
-	JSVCPIDFile("jsvc.pid"),
-	/**
-	 * The JSVC start script file name.
-	 */
-	JSVCStartScriptFile("hemera-jsvc-start"),
-	/**
-	 * The JSVC stop script file name.
-	 */
-	JSVCStopScriptFile("hemera-jsvc-stop");
+	DefaultLauncher("hemera.ext.apache.ApacheRuntimeLauncher");
 
 	/**
 	 * The <code>String</code> value.

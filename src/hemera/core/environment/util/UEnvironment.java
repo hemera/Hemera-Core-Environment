@@ -1,7 +1,7 @@
 package hemera.core.environment.util;
 
+import hemera.core.environment.config.Configuration;
 import hemera.core.environment.enumn.EEnvironment;
-import hemera.core.environment.util.config.Configuration;
 import hemera.core.utility.FileUtils;
 
 import java.io.File;
@@ -25,6 +25,23 @@ public enum UEnvironment {
 	 * The singleton instance.
 	 */
 	instance;
+	
+	/**
+	 * The <code>String</code> installed home directory.
+	 */
+	private String installedHomeDir;
+	
+	/**
+	 * Explicitly set the installed home directory.
+	 * <p>
+	 * Setting this value will cause all installed
+	 * directory retrieval to use this specified home
+	 * directory value as base.
+	 * @param dir The <code>String</code> directory.
+	 */
+	public void setInstalledHomeDir(final String dir) {
+		this.installedHomeDir = dir;
+	}
 
 	/**
 	 * Retrieve the installed binary directory.
@@ -57,12 +74,20 @@ public enum UEnvironment {
 
 	/**
 	 * Retrieve the installed home directory.
+	 * <p>
+	 * If there is no value specified explicitly, this
+	 * method will use the current executing Jar file's
+	 * directory minus the <code>bin</code> directory.
 	 * @return The <code>String</code> home directory.
 	 */
 	public String getInstalledHomeDir() {
-		final String binDir = FileUtils.instance.getCurrentJarDirectory();
-		final int index = binDir.indexOf("/bin")+1;
-		return binDir.substring(0, index);
+		if (this.installedHomeDir == null) {
+			final String binDir = FileUtils.instance.getCurrentJarDirectory();
+			final int index = binDir.indexOf("/bin")+1;
+			return binDir.substring(0, index);
+		} else {
+			return this.installedHomeDir;
+		}
 	}
 
 	/**

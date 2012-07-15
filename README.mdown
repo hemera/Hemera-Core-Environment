@@ -20,11 +20,8 @@ mainability and scalability.
 
 # Hemera - Core Environment
 
-**Hemera - Core Environment** defines the executable package of the
-platform. It ties all the various individual components together to
-provide a unified access point for application developers to install
-the platform, bundle and deploy applications and perform other system
-maintenance tasks.
+**Hemera - Core Environment** defines the shared configuration units that are
+used by other projects to setup the Hemera environment.
 
 # License
 

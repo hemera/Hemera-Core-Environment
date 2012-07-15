@@ -1,3 +1,0 @@
-#!/bin/sh
-
-java -jar hemera-core-environment-v1.0.0.jar $@
