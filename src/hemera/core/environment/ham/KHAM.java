@@ -18,6 +18,10 @@ public enum KHAM {
 	 */
 	ApplicationName("application-name"),
 	/**
+	 * The optional shared resources directory tag.
+	 */
+	SharedResourcesDir("shared-resources-dir"),
+	/**
 	 * The modules list tag.
 	 */
 	Modules("modules"),

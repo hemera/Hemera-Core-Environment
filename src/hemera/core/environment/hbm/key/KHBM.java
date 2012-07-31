@@ -1,4 +1,4 @@
-package hemera.core.environment.hbm;
+package hemera.core.environment.hbm.key;
 
 /**
  * <code>KHBM</code> defines the enumerations of all
@@ -18,33 +18,21 @@ public enum KHBM {
 	 */
 	ApplicationName("application-name"),
 	/**
-	 * The modules list tag.
+	 * The shared configuration file tag.
 	 */
-	Modules("modules"),
+	SharedConfigFile("shared-config-file"),
 	/**
-	 * The module tag.
+	 * The shared resources directory tag.
 	 */
-	Module("module"),
+	SharedResourcesDir("shared-resources-dir"),
 	/**
-	 * The module source directory tag.
+	 * The shared dependencies tag.
 	 */
-	ModuleSourceDir("src-dir"),
+	SharedDependencies("shared-dependencies"),
 	/**
-	 * The module class-path library directory tag.
+	 * The modules tag.
 	 */
-	ModuleLibraryDir("lib-dir"),
-	/**
-	 * The module fully qualified class name tag.
-	 */
-	ModuleClassname("classname"),
-	/**
-	 * The module optional configuration file path tag.
-	 */
-	ModuleConfigFile("config-file"),
-	/**
-	 * The module optional resource directory tag.
-	 */
-	ModuleResourceDir("resource-dir");
+	Modules("modules");
 	
 	/**
 	 * The <code>String</code> tag.
