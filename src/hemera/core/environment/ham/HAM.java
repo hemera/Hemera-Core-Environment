@@ -148,7 +148,7 @@ public class HAM extends AbstractTag {
 		final int size = this.modules.size();
 		for (int i = 0; i < size; i++) {
 			final HAMModule node = this.modules.get(i);
-			final Element module = node.toXML(document);
+			final Element module = node.toXML(document, this.shared);
 			modules.appendChild(module);
 		}
 		return modules;

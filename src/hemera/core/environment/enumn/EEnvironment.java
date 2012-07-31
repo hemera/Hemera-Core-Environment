@@ -29,7 +29,19 @@ public enum EEnvironment {
 	 * The fully qualified class name of the default
 	 * runtime launcher.
 	 */
-	DefaultLauncher("hemera.ext.apache.ApacheRuntimeLauncher");
+	DefaultLauncher("hemera.ext.apache.ApacheRuntimeLauncher"),
+	/**
+	 * The application shared directory name.
+	 */
+	AppSharedDir("shared"),
+	/**
+	 * The application shared library directory name.
+	 */
+	AppSharedLibDir("lib"),
+	/**
+	 * The application shared resources directory name.
+	 */
+	AppSharedResourcesDir("resources");
 
 	/**
 	 * The <code>String</code> value.

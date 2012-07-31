@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hemera.core.environment.AbstractTag;
+import hemera.core.environment.enumn.EEnvironment;
 import hemera.core.environment.ham.key.KHAM;
 import hemera.core.environment.ham.key.KHAMShared;
 import hemera.core.environment.hbm.HBMShared;
@@ -20,6 +21,11 @@ import hemera.core.utility.FileUtils;
  */
 public class HAMShared extends AbstractTag {
 	/**
+	 * The <code>String</code> optional shared
+	 * configuration file.
+	 */
+	public final String configFile;
+	/**
 	 * The <code>String</code> optional shared resources
 	 * directory.
 	 */
@@ -31,6 +37,7 @@ public class HAMShared extends AbstractTag {
 	 */
 	HAMShared(final Element node) {
 		super(node, KHAM.Shared.tag);
+		this.configFile = this.parseTagValue(node, KHAMShared.ConfigFile.tag, true);
 		this.resourcesDir = this.parseTagValue(node, KHAMShared.ResourcesDir.tag, true);
 	}
 	
@@ -39,6 +46,7 @@ public class HAMShared extends AbstractTag {
 	 * @param hbmShared The <code>HBMShared</code> data.
 	 */
 	HAMShared(final HBMShared hbmShared) {
+		this.configFile = hbmShared.configFile;
 		this.resourcesDir = hbmShared.resourcesDir;
 	}
 	
@@ -53,7 +61,8 @@ public class HAMShared extends AbstractTag {
 		// Library directory.
 		final StringBuilder libBuilder = new StringBuilder();
 		libBuilder.append(KHAM.PlaceholderAppsDir.tag);
-		libBuilder.append("shared").append(File.separator).append("lib").append(File.separator);
+		libBuilder.append(EEnvironment.AppSharedDir.value).append(File.separator);
+		libBuilder.append(EEnvironment.AppSharedLibDir.value).append(File.separator);
 		final Element lib = document.createElement(KHAMShared.LibraryDir.tag);
 		lib.setTextContent(libBuilder.toString());
 		shared.appendChild(lib);
@@ -64,7 +73,8 @@ public class HAMShared extends AbstractTag {
 			final Element resources = document.createElement(KHAMShared.ResourcesDir.tag);
 			final StringBuilder builder = new StringBuilder();
 			builder.append(KHAM.PlaceholderAppsDir.tag);
-			builder.append("shared").append(File.separator).append("resources").append(File.separator);
+			builder.append(EEnvironment.AppSharedDir.value).append(File.separator);
+			builder.append(EEnvironment.AppSharedResourcesDir.value).append(File.separator);
 			resources.setTextContent(FileUtils.instance.getValidDir(builder.toString()));
 			shared.appendChild(resources);
 		}

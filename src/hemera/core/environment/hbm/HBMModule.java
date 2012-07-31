@@ -130,7 +130,7 @@ public class HBMModule extends AbstractTag {
 			// Write the appended local document to a temporary file.
 			String fileName = null;
 			if (this.configFile == null) {
-				fileName = this.classname + ".xml";
+				fileName = sharedFile.getName();
 			} else {
 				fileName = new File(this.configFile).getName();
 			}

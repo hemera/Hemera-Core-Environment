@@ -74,19 +74,25 @@ public class HAMModule extends AbstractTag {
 	 * Convert this HAM module to a XML element.
 	 * @param document The <code>Document</code> to
 	 * create the new tags from.
+	 * @param shared The <code>HAMShared</code> data.
 	 * @return The module <code>Element</code>.
 	 */
-	public Element toXML(final Document document) {
+	public Element toXML(final Document document, final HAMShared shared) {
 		final Element module = document.createElement(KHAMModule.Root.tag);
 		// Class-name tag.
 		final Element classname = document.createElement(KHAMModule.Classname.tag);
 		classname.setTextContent(this.classname);
 		module.appendChild(classname);
 		// Configuration file tag.
-		if (this.configFile != null && this.configFile.length() > 0) {
+		if ((this.configFile != null && this.configFile.length() > 0) ||
+				(shared.configFile != null && shared.configFile.length() > 0)) {
 			// Retrieve the configuration file name.
-			final int index = this.configFile.lastIndexOf(File.separator)+1;
-			final String configFileName = this.configFile.substring(index);
+			String configFileName = null;
+			if (this.configFile != null) {
+				configFileName = new File(this.configFile).getName();
+			} else {
+				configFileName = new File(shared.configFile).getName();
+			}
 			// Build configuration file path after deployment.
 			// HOME/apps/APPLICATION/MODULE/CONFIG.FILE
 			final Element config = document.createElement(KHAMModule.ConfigFile.tag);

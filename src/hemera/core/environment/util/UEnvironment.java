@@ -188,7 +188,31 @@ public enum UEnvironment {
 	 * library directory path.
 	 */
 	public String getApplicationLibDir(final String appDir) {
-		return FileUtils.instance.getValidDir(appDir) + "lib" + File.separator;
+		return this.getApplicationSharedDir(appDir) + EEnvironment.AppSharedLibDir.value + File.separator;
+	}
+	
+	/**
+	 * Retrieve the shared directory of a particular
+	 * application with the given application directory.
+	 * @param appDir The <code>String</code> path to
+	 * the application directory.
+	 * @return The <code>String</code> application's
+	 * shared directory path.
+	 */
+	public String getApplicationSharedDir(final String appDir) {
+		return FileUtils.instance.getValidDir(appDir) + EEnvironment.AppSharedDir.value + File.separator;
+	}
+	
+	/**
+	 * Retrieve the resources directory of a particular
+	 * application with the given application directory.
+	 * @param appDir The <code>String</code> path to
+	 * the application directory.
+	 * @return The <code>String</code> application's
+	 * resources directory path.
+	 */
+	public String getApplicationResourcesDir(final String appDir) {
+		return this.getApplicationSharedDir(appDir) + EEnvironment.AppSharedResourcesDir.value + File.separator;
 	}
 
 	/**
