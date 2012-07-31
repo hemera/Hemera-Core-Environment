@@ -2,6 +2,7 @@ package hemera.core.environment.hbm;
 
 import hemera.core.environment.AbstractTag;
 import hemera.core.environment.hbm.key.KHBM;
+import hemera.core.environment.hbm.key.KHBMModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +24,9 @@ public class HBM extends AbstractTag {
 	 */
 	public final String applicationName;
 	/**
-	 * The <code>String</code> optional shared
-	 * configuration file.
+	 * The optional <code>HBMShared</code> section.
 	 */
-	public final String sharedConfigFile;
-	/**
-	 * The <code>String</code> optional shared resources
-	 * directory.
-	 */
-	public final String sharedResourcesDir;
-	/**
-	 * The <code>List</code> of <code>HBMDepdency</code>
-	 * shared by all modules. <code>null</code> if there
-	 * are no shared dependencies.
-	 */
-	public final List<HBMDependency> sharedDependencies;
+	public final HBMShared shared;
 	/**
 	 * The <code>List</code> of <code>HBMModule</code>
 	 * the bundle contains.
@@ -53,17 +42,32 @@ public class HBM extends AbstractTag {
 		super(document.getDocumentElement(), KHBM.Root.tag);
 		final Element docElement = document.getDocumentElement();
 		this.applicationName = this.parseTagValue(docElement, KHBM.ApplicationName.tag, false);
-		this.sharedConfigFile = this.parseTagValue(docElement, KHBM.SharedConfigFile.tag, true);
-		this.sharedResourcesDir = this.parseTagValue(docElement, KHBM.SharedResourcesDir.tag, true);
-		this.sharedDependencies = this.parseDependencies(docElement);
+		this.shared = this.parseShared(docElement);
 		this.modules = this.parseModules(docElement);
 	}
 
 	/**
 	 * Parse the given XML document and retrieve the
+	 * shared section.
+	 * @param document The <code>Element</code> to be
+	 * parsed.
+	 * @return The <code>HBMShared</code> structure.
+	 * Or <code>null</code> if there are no shared tag.
+	 */
+	private HBMShared parseShared(final Element document) {
+		// Retrieve shared tag.
+		final NodeList sharedtag = document.getElementsByTagName(KHBM.Shared.tag);
+		if (sharedtag == null || sharedtag.getLength() != 1) return null;
+		// Parse shared.
+		final Element shared = (Element)sharedtag.item(0);
+		return new HBMShared(shared);
+	}
+
+	/**
+	 * Parse the given XML document and retrieve the
 	 * modules list.
-	 * @param document The <code>Element</code> to
-	 * be parsed.
+	 * @param document The <code>Element</code> to be
+	 * parsed.
 	 * @return The <code>List</code> of all the parsed
 	 * <code>HBMModule</code>.
 	 */
@@ -75,7 +79,7 @@ public class HBM extends AbstractTag {
 		}
 		final Element modules = (Element)modulestag.item(0);
 		// Parse modules.
-		final NodeList modulelist = modules.getChildNodes();
+		final NodeList modulelist = modules.getElementsByTagName(KHBMModule.Root.tag);
 		if (modulelist == null || modulelist.getLength() <= 0) {
 			throw new IllegalArgumentException("Invalid HBM file. Must contain at least one module tags.");
 		}
@@ -85,28 +89,6 @@ public class HBM extends AbstractTag {
 			final Element moduleelement = (Element)modulelist.item(i);
 			final HBMModule module = new HBMModule(moduleelement);
 			store.add(module);
-		}
-		return store;
-	}
-	
-	/**
-	 * Parse the given XML document and retrieve the
-	 * dependencies list.
-	 * @param document The <code>Element</code> to
-	 * be parsed.
-	 * @return The <code>List</code> of all the parsed
-	 * <code>HBMDependency</code>.
-	 */
-	private List<HBMDependency> parseDependencies(final Element document) {
-		final NodeList list = document.getElementsByTagName(KHBM.SharedDependencies.tag);
-		if (list == null || list.getLength() != 1) return null;
-		final Element dependenciesRoot = (Element)list.item(0);
-		final NodeList dependenciesList = dependenciesRoot.getChildNodes();
-		final int size = dependenciesList.getLength();
-		final ArrayList<HBMDependency> store = new ArrayList<HBMDependency>();
-		for (int i = 0; i < size; i++) {
-			final HBMDependency dependency = new HBMDependency((Element)dependenciesList.item(i));
-			store.add(dependency);
 		}
 		return store;
 	}

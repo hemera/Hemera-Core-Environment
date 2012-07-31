@@ -1,4 +1,4 @@
-package hemera.core.environment.ham;
+package hemera.core.environment.ham.key;
 
 /**
  * <code>KHAM</code> defines the enumerations of all
@@ -18,29 +18,13 @@ public enum KHAM {
 	 */
 	ApplicationName("application-name"),
 	/**
-	 * The optional shared resources directory tag.
+	 * The optional shared tag.
 	 */
-	SharedResourcesDir("shared-resources-dir"),
+	Shared("shared"),
 	/**
 	 * The modules list tag.
 	 */
 	Modules("modules"),
-	/**
-	 * The module tag.
-	 */
-	Module("module"),
-	/**
-	 * The module fully qualified class name tag.
-	 */
-	ModuleClassname("classname"),
-	/**
-	 * The module optional configuration file path tag.
-	 */
-	ModuleConfigFile("config-file"),
-	/**
-	 * The module optional resource directory tag.
-	 */
-	ModuleResourceDir("resource-dir"),
 	/**
 	 * The application directory place-holder that is
 	 * replaced with the proper application directory

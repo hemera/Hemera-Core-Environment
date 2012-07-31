@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import hemera.core.environment.AbstractTag;
+import hemera.core.environment.hbm.key.KHBMDependency;
 import hemera.core.environment.hbm.key.KHBMModule;
 import hemera.core.utility.FileUtils;
 
@@ -49,7 +50,8 @@ public class HBMModule extends AbstractTag {
 	public final String resourcesDir;
 	/**
 	 * The <code>List</code> of <code>HBMDependency</code>
-	 * used by the module.
+	 * used by the module. This list may be empty if
+	 * the module does not have specific dependencies.
 	 */
 	public final List<HBMDependency> dependencies;
 
@@ -66,15 +68,14 @@ public class HBMModule extends AbstractTag {
 		this.dependencies = new ArrayList<HBMDependency>();
 		// Parse dependencies.
 		final NodeList list = node.getElementsByTagName(KHBMModule.Dependencies.tag);
-		if (list == null || list.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid module tag. Must contain one dependencies tag.");
-		}
-		final Element dependenciesRoot = (Element)list.item(0);
-		final NodeList dependenciesList = dependenciesRoot.getChildNodes();
-		final int size = dependenciesList.getLength();
-		for (int i = 0; i < size; i++) {
-			final HBMDependency dependency = new HBMDependency((Element)dependenciesList.item(i));
-			this.dependencies.add(dependency);
+		if (list != null && list.getLength() > 0) {
+			final Element dependenciesRoot = (Element)list.item(0);
+			final NodeList dependenciesList = dependenciesRoot.getElementsByTagName(KHBMDependency.Root.tag);
+			final int size = dependenciesList.getLength();
+			for (int i = 0; i < size; i++) {
+				final HBMDependency dependency = new HBMDependency((Element)dependenciesList.item(i));
+				this.dependencies.add(dependency);
+			}
 		}
 	}
 	
@@ -83,8 +84,8 @@ public class HBMModule extends AbstractTag {
 	 * application shared configuration content to the
 	 * module's local configuration content and export
 	 * the file into the given temporary directory.
-	 * @param sharedConfig The <code>String</code> shared
-	 * configuration file path.
+	 * @param shared The <code>HBMShared</code> shared
+	 * data structure.
 	 * @param tempDir The <code>String</code> path of
 	 * the temporary directory.
 	 * @return The <code>File</code> of the processed
@@ -98,13 +99,13 @@ public class HBMModule extends AbstractTag {
 	 * @throws TransformerException If writing the
 	 * XML document failed.
 	 */
-	public File processConfig(final String sharedConfig, final String tempDir) throws IOException, SAXException, ParserConfigurationException, TransformerException {
-		if (sharedConfig == null) {
+	public File processConfig(final HBMShared shared, final String tempDir) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+		if (shared == null || shared.configFile == null) {
 			if (this.configFile == null) return null;
 			else return new File(this.configFile);
 		} else {
 			// Read in shared configuration.
-			final File sharedFile = new File(sharedConfig);
+			final File sharedFile = new File(shared.configFile);
 			final Document sharedDoc = FileUtils.instance.readAsDocument(sharedFile);
 			// Retrieve all shared configuration children tags.
 			final NodeList sharedChildren = sharedDoc.getDocumentElement().getChildNodes();
@@ -114,6 +115,9 @@ public class HBMModule extends AbstractTag {
 				final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				final DocumentBuilder docBuilder = factory.newDocumentBuilder();
 				localDoc = docBuilder.newDocument();
+				// Create a root tag.
+				final Element root = localDoc.createElement(this.classname);
+				localDoc.appendChild(root);
 			} else {
 				localDoc = FileUtils.instance.readAsDocument(new File(this.configFile));
 			}
@@ -121,12 +125,12 @@ public class HBMModule extends AbstractTag {
 			final int size = sharedChildren.getLength();
 			final Node localRoot = localDoc.getFirstChild();
 			for (int i = 0; i < size; i++) {
-				localRoot.appendChild(sharedChildren.item(i));
+				localRoot.appendChild(localDoc.importNode(sharedChildren.item(i), true));
 			}
 			// Write the appended local document to a temporary file.
 			String fileName = null;
 			if (this.configFile == null) {
-				fileName = sharedFile.getName();
+				fileName = this.classname + ".xml";
 			} else {
 				fileName = new File(this.configFile).getName();
 			}

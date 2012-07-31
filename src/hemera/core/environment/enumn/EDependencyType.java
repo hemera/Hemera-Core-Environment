@@ -41,7 +41,7 @@ public enum EDependencyType {
 		} else if (value.equals(EDependencyType.SourceDirectory.value)) {
 			return EDependencyType.SourceDirectory;
 		} else {
-			return null;
+			throw new IllegalArgumentException("Unsupported dependency type: " + value);
 		}
 	}
 }

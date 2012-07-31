@@ -20,7 +20,11 @@ public enum KHBMDependency {
 	/**
 	 * The value tag.
 	 */
-	Value("value");
+	Value("value"),
+	/**
+	 * The optional library directory tag.
+	 */
+	LibraryDirectory("lib-dir");
 	
 	/**
 	 * The <code>String</code> tag.

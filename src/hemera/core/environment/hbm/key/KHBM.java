@@ -18,17 +18,9 @@ public enum KHBM {
 	 */
 	ApplicationName("application-name"),
 	/**
-	 * The shared configuration file tag.
+	 * The shared tag.
 	 */
-	SharedConfigFile("shared-config-file"),
-	/**
-	 * The shared resources directory tag.
-	 */
-	SharedResourcesDir("shared-resources-dir"),
-	/**
-	 * The shared dependencies tag.
-	 */
-	SharedDependencies("shared-dependencies"),
+	Shared("shared"),
 	/**
 	 * The modules tag.
 	 */

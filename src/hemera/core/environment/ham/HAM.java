@@ -1,9 +1,11 @@
 package hemera.core.environment.ham;
 
+import hemera.core.environment.AbstractTag;
+import hemera.core.environment.ham.key.KHAM;
+import hemera.core.environment.ham.key.KHAMModule;
 import hemera.core.environment.hbm.HBM;
 import hemera.core.environment.hbm.HBMModule;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +24,15 @@ import org.w3c.dom.NodeList;
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public class HAM {
+public class HAM extends AbstractTag {
 	/**
 	 * The <code>String</code> application name.
 	 */
 	public final String applicationName;
 	/**
-	 * The <code>String</code> optional shared resources
-	 * directory.
+	 * The optional <code>HAMShared</code> data.
 	 */
-	public final String sharedResourcesDir;
+	public final HAMShared shared;
 	/**
 	 * The <code>List</code> of <code>HAMModule</code>
 	 * the application contains.
@@ -47,7 +48,7 @@ public class HAM {
 	 */
 	public HAM(final HBM hbm) {
 		this.applicationName = hbm.applicationName;
-		this.sharedResourcesDir = hbm.sharedResourcesDir;
+		this.shared = (hbm.shared==null) ? null : new HAMShared(hbm.shared);
 		final int size = hbm.modules.size();
 		this.modules = new ArrayList<HAMModule>(size);
 		for (int i = 0; i < size; i++) {
@@ -62,31 +63,13 @@ public class HAM {
 	 * parse from.
 	 */
 	public HAM(final Document document) {
-		this.applicationName = this.parseTagValue(document, KHAM.ApplicationName.tag, false);
-		this.sharedResourcesDir = this.parseTagValue(document, KHAM.SharedResourcesDir.tag, true);
+		super(document.getDocumentElement(), KHAM.Root.tag);
+		final Element docElement = document.getDocumentElement();
+		this.applicationName = this.parseTagValue(docElement, KHAM.ApplicationName.tag, false);
+		final NodeList list = docElement.getElementsByTagName(KHAM.Shared.tag);
+		if (list == null || list.getLength() != 1) this.shared = null;
+		else this.shared = new HAMShared((Element)list.item(0));
 		this.modules = this.parseModules(document);
-	}
-
-	/**
-	 * Parse a tag string value with given tag and
-	 * optional flag.
-	 * @param document The <code>Document</code> to
-	 * be parsed.
-	 * @param tag The <code>String</code> tag to parse.
-	 * @param optional <code>true</code> if the value
-	 * can be <code>null</code>. <code>false</code>
-	 * otherwise.
-	 * @return The <code>String</code> tag value. Or
-	 * <code>null</code> if there is no such tag and
-	 * it is optional.
-	 */
-	private String parseTagValue(final Document document, final String tag, final boolean optional) {
-		final NodeList list = document.getElementsByTagName(tag);
-		if (list == null || list.getLength() != 1) {
-			if (optional) return null;
-			else throw new IllegalArgumentException("Invalid HAM file. Must contain one " + tag + ".");
-		}
-		return list.item(0).getTextContent();
 	}
 
 	/**
@@ -110,15 +93,15 @@ public class HAM {
 		}
 		final Element modules = (Element)modulestag.item(0);
 		// Parse modules.
-		final NodeList modulelist = modules.getElementsByTagName(KHAM.Module.tag);
-		if (modulelist == null || modulelist.getLength() <= 0) {
+		final NodeList moduleList = modules.getElementsByTagName(KHAMModule.Root.tag);
+		if (moduleList == null || moduleList.getLength() <= 0) {
 			throw new IllegalArgumentException("Invalid HAM file. Must contain at least one module tags.");
 		}
-		final int length = modulelist.getLength();
+		final int length = moduleList.getLength();
 		final ArrayList<HAMModule> store = new ArrayList<HAMModule>(length);
 		for (int i = 0; i < length; i++) {
-			final Element moduleelement = (Element)modulelist.item(i);
-			final HAMModule module = new HAMModule(moduleelement);
+			final Element moduleElement = (Element)moduleList.item(i);
+			final HAMModule module = new HAMModule(moduleElement);
 			store.add(module);
 		}
 		return store;
@@ -142,16 +125,10 @@ public class HAM {
 		final Element appName = document.createElement(KHAM.ApplicationName.tag);
 		appName.setTextContent(this.applicationName);
 		root.appendChild(appName);
-		// Optional shared resources directory tag.
-		if (this.sharedResourcesDir != null) {
-			final Element sharedResourcesDir = document.createElement(KHAM.SharedResourcesDir.tag);
-			// Build proper path after deployment.
-			// HOME/apps/APPLICATION/resources.
-			final StringBuilder builder = new StringBuilder();
-			builder.append(KHAM.PlaceholderAppsDir.tag).append(File.separator);
-			builder.append("resources");
-			sharedResourcesDir.setTextContent(builder.toString());
-			root.appendChild(sharedResourcesDir);
+		// Optional shared tag.
+		if (this.shared != null) {
+			final Element sharedElement = this.shared.toXML(document);
+			root.appendChild(sharedElement);
 		}
 		// Modules tag.
 		final Element modules = this.buildModulesTag(document);

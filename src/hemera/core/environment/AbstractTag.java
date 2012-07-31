@@ -11,6 +11,13 @@ import org.w3c.dom.NodeList;
  * @version 1.0.0
  */
 public class AbstractTag {
+	
+	/**
+	 * Constructor of <code>AbstractTag</code>.
+	 */
+	protected AbstractTag() {
+		super();
+	}
 
 	/**
 	 * Constructor of <code>AbstractTag</code>.

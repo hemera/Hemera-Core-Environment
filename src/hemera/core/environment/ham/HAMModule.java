@@ -1,5 +1,8 @@
 package hemera.core.environment.ham;
 
+import hemera.core.environment.AbstractTag;
+import hemera.core.environment.ham.key.KHAM;
+import hemera.core.environment.ham.key.KHAMModule;
 import hemera.core.environment.hbm.HBMModule;
 import hemera.core.utility.FileUtils;
 
@@ -7,7 +10,6 @@ import java.io.File;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * <code>HAMModule</code> defines the immutable unit
@@ -16,7 +18,7 @@ import org.w3c.dom.NodeList;
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public class HAMModule {
+public class HAMModule extends AbstractTag {
 	/**
 	 * The <code>String</code> fully qualified module
 	 * class name.
@@ -38,25 +40,10 @@ public class HAMModule {
 	 * @param node The <code>Element</code> XML node.
 	 */
 	HAMModule(final Element node) {
-		// Verify tag name.
-		final String tagname = node.getTagName();
-		if (!tagname.equalsIgnoreCase(KHAM.Module.tag)) {
-			throw new IllegalArgumentException("Invalid module tag: " + tagname);
-		}
-		// Class name tag.
-		final NodeList classList = node.getElementsByTagName(KHAM.ModuleClassname.tag);
-		if (classList == null || classList.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid module tag. Each module tag must contain one class name tag.");
-		}
-		this.classname = classList.item(0).getTextContent();
-		// Optional configuration file.
-		final NodeList configlist = node.getElementsByTagName(KHAM.ModuleConfigFile.tag);
-		if (configlist == null || configlist.getLength() <= 0) this.configFile = null;
-		else this.configFile = configlist.item(0).getTextContent();
-		// Optional resources directory.
-		final NodeList resourcesList = node.getElementsByTagName(KHAM.ModuleResourceDir.tag);
-		if (resourcesList == null || resourcesList.getLength() <= 0) this.resourcesDir = null;
-		else this.resourcesDir = resourcesList.item(0).getTextContent();
+		super(node, KHAMModule.Root.tag);
+		this.classname = this.parseTagValue(node, KHAMModule.Classname.tag, false);
+		this.configFile = this.parseTagValue(node, KHAMModule.ConfigFile.tag, true);
+		this.resourcesDir = this.parseTagValue(node, KHAMModule.ResourcesDir.tag, true);
 	}
 
 	/**
@@ -90,9 +77,9 @@ public class HAMModule {
 	 * @return The module <code>Element</code>.
 	 */
 	public Element toXML(final Document document) {
-		final Element module = document.createElement(KHAM.Module.tag);
+		final Element module = document.createElement(KHAMModule.Root.tag);
 		// Class-name tag.
-		final Element classname = document.createElement(KHAM.ModuleClassname.tag);
+		final Element classname = document.createElement(KHAMModule.Classname.tag);
 		classname.setTextContent(this.classname);
 		module.appendChild(classname);
 		// Configuration file tag.
@@ -102,7 +89,7 @@ public class HAMModule {
 			final String configFileName = this.configFile.substring(index);
 			// Build configuration file path after deployment.
 			// HOME/apps/APPLICATION/MODULE/CONFIG.FILE
-			final Element config = document.createElement(KHAM.ModuleConfigFile.tag);
+			final Element config = document.createElement(KHAMModule.ConfigFile.tag);
 			final StringBuilder builder = new StringBuilder();
 			builder.append(KHAM.PlaceholderAppsDir.tag);
 			builder.append(this.classname).append(File.separator);
@@ -114,7 +101,7 @@ public class HAMModule {
 		if (this.resourcesDir != null && this.resourcesDir.length() > 0) {
 			// Build resources directory after deployment.
 			// HOME/apps/APPLICATION/MODULE/resources/
-			final Element resources = document.createElement(KHAM.ModuleResourceDir.tag);
+			final Element resources = document.createElement(KHAMModule.ResourcesDir.tag);
 			final StringBuilder builder = new StringBuilder();
 			builder.append(KHAM.PlaceholderAppsDir.tag);
 			builder.append(this.classname).append(File.separator);

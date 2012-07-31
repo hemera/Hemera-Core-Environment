@@ -28,6 +28,11 @@ public class HBMDependency extends AbstractTag {
 	 * The <code>String</code> value.
 	 */
 	public final String value;
+	/**
+	 * The <code>String</code> optional library directory
+	 * used only when the dependency type is source.
+	 */
+	public final String libDir;
 	
 	/**
 	 * Constructor of <code>HBMDependency</code>.
@@ -38,6 +43,11 @@ public class HBMDependency extends AbstractTag {
 		final String typeStr = this.parseTagValue(node, KHBMDependency.Type.tag, false);
 		this.type = EDependencyType.parse(typeStr);
 		this.value = this.parseTagValue(node, KHBMDependency.Value.tag, false);
+		if (this.type == EDependencyType.SourceDirectory) {
+			this.libDir = this.parseTagValue(node, KHBMDependency.LibraryDirectory.tag, true);
+		} else {
+			this.libDir = null;
+		}
 	}
 	
 	/**
@@ -47,23 +57,29 @@ public class HBMDependency extends AbstractTag {
 	 * @param tempDir The <code>String</code> path of
 	 * the temporary directory.
 	 * @return The <code>List</code> of all the Jar
-	 * dependency <code>File</code>.
+	 * dependency <code>File</code>.x
 	 * @throws Exception If compiling sources failed.
 	 */
 	public List<File> process(final String tempDir) throws Exception {
 		if (this.type == EDependencyType.JarDirectory) {
 			return FileUtils.instance.getFiles(this.value, ".jar");
 		} else {
+			// Retrieve library files.
+			final List<File> libFiles = (this.libDir==null) ? null : FileUtils.instance.getFiles(this.libDir, ".jar");
 			// Compile to a temporary build directory.
-			final String dependencyName = this.value.replace(File.separator, ".");
+			final int beginIndex = this.value.indexOf(File.separator)+1;
+			final int endIndex = (this.value.endsWith(File.separator)) ? this.value.length()-1 : this.value.length();
+			final String dependencyName = this.value.substring(beginIndex, endIndex).replace(File.separator, ".");
 			final String buildDir = FileUtils.instance.getValidDir(tempDir + dependencyName);
 			final Compiler compiler = new Compiler();
-			compiler.compile(this.value, buildDir, null);
+			compiler.compile(this.value, buildDir, libFiles);
 			// Package all class files into a Jar file.
-			final List<File> classFiles = FileUtils.instance.getFiles(buildDir, ".class");
-			final String jarTarget = buildDir + dependencyName + ".jar";
+			final File classDir = new File(buildDir);
+			final List<File> classDirList = new ArrayList<File>(1);
+			classDirList.add(classDir);
+			final String jarTarget = tempDir + dependencyName + ".jar";
 			final List<File> jarFiles = new ArrayList<File>(1);
-			final File jarFile = FileUtils.instance.jarFiles(classFiles, jarTarget);
+			final File jarFile = FileUtils.instance.jarFiles(classDirList, jarTarget);
 			jarFiles.add(jarFile);
 			return jarFiles;
 		}
