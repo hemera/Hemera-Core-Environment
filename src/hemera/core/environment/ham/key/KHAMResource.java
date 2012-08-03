@@ -1,18 +1,18 @@
 package hemera.core.environment.ham.key;
 
 /**
- * <code>KHAMModule</code> defines the enumerations
- * of all the XML tags used in the module section of
+ * <code>KHAMResource</code> defines the enumerations
+ * of all the XML tags used in the resource section of
  * a <code>ham</code>, Hemera Application Model file.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public enum KHAMModule {
+public enum KHAMResource {
 	/**
 	 * The root tag.
 	 */
-	Root("module"),
+	Root("resource"),
 	/**
 	 * The fully qualified class name tag.
 	 */
@@ -32,10 +32,10 @@ public enum KHAMModule {
 	public final String tag;
 	
 	/**
-	 * Constructor of <code>KHAMModule</code>.
+	 * Constructor of <code>KHAMResource</code>.
 	 * @param key The <code>String</code> tag.
 	 */
-	private KHAMModule(final String key) {
+	private KHAMResource(final String key) {
 		this.tag = key;
 	}
 }

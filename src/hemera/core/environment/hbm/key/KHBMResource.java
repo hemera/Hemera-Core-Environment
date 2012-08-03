@@ -1,18 +1,18 @@
 package hemera.core.environment.hbm.key;
 
 /**
- * <code>KHBMModule</code> defines the enumerations
- * of all the XML tags used in the module section of
+ * <code>KHBMResource</code> defines the enumerations
+ * of all the XML tags used in the resource section of
  * a <code>hbm</code>, Hemera Bundle Model file.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public enum KHBMModule {
+public enum KHBMResource {
 	/**
 	 * The root tag.
 	 */
-	Root("module"),
+	Root("resource"),
 	/**
 	 * The source directory tag.
 	 */
@@ -40,10 +40,10 @@ public enum KHBMModule {
 	public final String tag;
 	
 	/**
-	 * Constructor of <code>KHBMModule</code>.
+	 * Constructor of <code>KHBMResource</code>.
 	 * @param key The <code>String</code> tag.
 	 */
-	private KHBMModule(final String key) {
+	private KHBMResource(final String key) {
 		this.tag = key;
 	}
 }

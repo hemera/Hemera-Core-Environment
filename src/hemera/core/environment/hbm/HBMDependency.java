@@ -14,7 +14,7 @@ import hemera.core.utility.FileUtils;
 
 /**
  * <code>HBMDependency</code> defines the data structure
- * of an application or module dependency.
+ * of an application or resource dependency.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0

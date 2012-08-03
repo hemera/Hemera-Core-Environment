@@ -2,7 +2,7 @@ package hemera.core.environment.hbm;
 
 import hemera.core.environment.AbstractTag;
 import hemera.core.environment.hbm.key.KHBM;
-import hemera.core.environment.hbm.key.KHBMModule;
+import hemera.core.environment.hbm.key.KHBMResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,10 @@ public class HBM extends AbstractTag {
 	 */
 	public final HBMShared shared;
 	/**
-	 * The <code>List</code> of <code>HBMModule</code>
+	 * The <code>List</code> of <code>HBMResource</code>
 	 * the bundle contains.
 	 */
-	public final List<HBMModule> modules;
+	public final List<HBMResource> resources;
 
 	/**
 	 * Constructor of <code>HBM</code>.
@@ -43,7 +43,7 @@ public class HBM extends AbstractTag {
 		final Element docElement = document.getDocumentElement();
 		this.applicationName = this.parseTagValue(docElement, KHBM.ApplicationName.tag, false);
 		this.shared = this.parseShared(docElement);
-		this.modules = this.parseModules(docElement);
+		this.resources = this.parseResources(docElement);
 	}
 
 	/**
@@ -65,30 +65,30 @@ public class HBM extends AbstractTag {
 
 	/**
 	 * Parse the given XML document and retrieve the
-	 * modules list.
+	 * resources list.
 	 * @param document The <code>Element</code> to be
 	 * parsed.
 	 * @return The <code>List</code> of all the parsed
-	 * <code>HBMModule</code>.
+	 * <code>HBMResource</code>.
 	 */
-	private List<HBMModule> parseModules(final Element document) {
-		// Retrieve modules tag.
-		final NodeList modulestag = document.getElementsByTagName(KHBM.Modules.tag);
-		if (modulestag == null || modulestag.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid HBM file. Must contain one modules tag.");
+	private List<HBMResource> parseResources(final Element document) {
+		// Retrieve resources tag.
+		final NodeList resourcestag = document.getElementsByTagName(KHBM.Resources.tag);
+		if (resourcestag == null || resourcestag.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid HBM file. Must contain one resources tag.");
 		}
-		final Element modules = (Element)modulestag.item(0);
-		// Parse modules.
-		final NodeList modulelist = modules.getElementsByTagName(KHBMModule.Root.tag);
-		if (modulelist == null || modulelist.getLength() <= 0) {
-			throw new IllegalArgumentException("Invalid HBM file. Must contain at least one module tags.");
+		final Element resources = (Element)resourcestag.item(0);
+		// Parse resources.
+		final NodeList resourcelist = resources.getElementsByTagName(KHBMResource.Root.tag);
+		if (resourcelist == null || resourcelist.getLength() <= 0) {
+			throw new IllegalArgumentException("Invalid HBM file. Must contain at least one resource tags.");
 		}
-		final int length = modulelist.getLength();
-		final ArrayList<HBMModule> store = new ArrayList<HBMModule>(length);
+		final int length = resourcelist.getLength();
+		final ArrayList<HBMResource> store = new ArrayList<HBMResource>(length);
 		for (int i = 0; i < length; i++) {
-			final Element moduleelement = (Element)modulelist.item(i);
-			final HBMModule module = new HBMModule(moduleelement);
-			store.add(module);
+			final Element resourceelement = (Element)resourcelist.item(i);
+			final HBMResource resource = new HBMResource(resourceelement);
+			store.add(resource);
 		}
 		return store;
 	}

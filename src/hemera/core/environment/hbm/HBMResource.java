@@ -12,7 +12,7 @@ import javax.xml.transform.TransformerException;
 
 import hemera.core.environment.AbstractTag;
 import hemera.core.environment.hbm.key.KHBMDependency;
-import hemera.core.environment.hbm.key.KHBMModule;
+import hemera.core.environment.hbm.key.KHBMResource;
 import hemera.core.utility.FileUtils;
 
 import org.w3c.dom.Document;
@@ -22,24 +22,24 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * <code>HBMModule</code> defines the immutable unit
- * representing a single module node in a HBM file.
+ * <code>HBMResource</code> defines the immutable unit
+ * representing a single resource node in a HBM file.
  *
  * @author Yi Wang (Neakor)
  * @version 1.0.0
  */
-public class HBMModule extends AbstractTag {
+public class HBMResource extends AbstractTag {
 	/**
 	 * The <code>String</code> source directory.
 	 */
 	public final String srcDir;
 	/**
-	 * The <code>String</code> fully qualified module
+	 * The <code>String</code> fully qualified resource
 	 * class name.
 	 */
 	public final String classname;
 	/**
-	 * The <code>String</code> optional module
+	 * The <code>String</code> optional resource
 	 * configuration file path.
 	 */
 	public final String configFile;
@@ -50,24 +50,24 @@ public class HBMModule extends AbstractTag {
 	public final String resourcesDir;
 	/**
 	 * The <code>List</code> of <code>HBMDependency</code>
-	 * used by the module. This list may be empty if
-	 * the module does not have specific dependencies.
+	 * used by the resource. This list may be empty if
+	 * the resource does not have specific dependencies.
 	 */
 	public final List<HBMDependency> dependencies;
 
 	/**
-	 * Constructor of <code>HBMModule</code>.
+	 * Constructor of <code>HBMResource</code>.
 	 * @param node The <code>Element</code> XML node.
 	 */
-	HBMModule(final Element node) {
-		super(node, KHBMModule.Root.tag);
-		this.srcDir = this.parseTagValue(node, KHBMModule.SourceDir.tag, false);
-		this.classname = this.parseTagValue(node, KHBMModule.Classname.tag, false);
-		this.configFile = this.parseTagValue(node, KHBMModule.ConfigFile.tag, true);
-		this.resourcesDir = this.parseTagValue(node, KHBMModule.ResourcesDir.tag, true);
+	HBMResource(final Element node) {
+		super(node, KHBMResource.Root.tag);
+		this.srcDir = this.parseTagValue(node, KHBMResource.SourceDir.tag, false);
+		this.classname = this.parseTagValue(node, KHBMResource.Classname.tag, false);
+		this.configFile = this.parseTagValue(node, KHBMResource.ConfigFile.tag, true);
+		this.resourcesDir = this.parseTagValue(node, KHBMResource.ResourcesDir.tag, true);
 		this.dependencies = new ArrayList<HBMDependency>();
 		// Parse dependencies.
-		final NodeList list = node.getElementsByTagName(KHBMModule.Dependencies.tag);
+		final NodeList list = node.getElementsByTagName(KHBMResource.Dependencies.tag);
 		if (list != null && list.getLength() > 0) {
 			final Element dependenciesRoot = (Element)list.item(0);
 			final NodeList dependenciesList = dependenciesRoot.getElementsByTagName(KHBMDependency.Root.tag);
@@ -80,17 +80,17 @@ public class HBMModule extends AbstractTag {
 	}
 	
 	/**
-	 * Process the module configuration by appending the
-	 * application shared configuration content to the
-	 * module's local configuration content and export
-	 * the file into the given temporary directory.
+	 * Process the resource configuration by appending
+	 * the application shared configuration content to
+	 * the resource's local configuration content and
+	 * export the file into the given temporary directory.
 	 * @param shared The <code>HBMShared</code> shared
 	 * data structure.
 	 * @param tempDir The <code>String</code> path of
 	 * the temporary directory.
 	 * @return The <code>File</code> of the processed
 	 * appended configuration. <code>null</code> if
-	 * the module does not have a configuration and the
+	 * the resource does not have a configuration and the
 	 * given shared configuration is <code>null</code>.
 	 * @throws IOException If reading file failed.
 	 * @throws SAXException If parsing file failed.
@@ -140,8 +140,8 @@ public class HBMModule extends AbstractTag {
 
 	@Override
 	public boolean equals(final Object o) {
-		if (o instanceof HBMModule) {
-			final HBMModule given = (HBMModule)o;
+		if (o instanceof HBMResource) {
+			final HBMResource given = (HBMResource)o;
 			final boolean src = this.srcDir.equals(given.srcDir);
 			final boolean classname = this.classname.equals(given.classname);
 			final boolean config = (this.configFile==null) ? (given.configFile==null) : this.configFile.equals(given.configFile);

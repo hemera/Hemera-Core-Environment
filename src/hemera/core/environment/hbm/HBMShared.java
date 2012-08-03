@@ -31,7 +31,7 @@ public class HBMShared extends AbstractTag {
 	public final String resourcesDir;
 	/**
 	 * The <code>List</code> of <code>HBMDepdency</code>
-	 * shared by all modules. <code>null</code> if there
+	 * shared by all resources. <code>null</code> if there
 	 * are no shared dependencies.
 	 */
 	public final List<HBMDependency> dependencies;

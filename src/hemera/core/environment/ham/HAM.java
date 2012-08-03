@@ -2,9 +2,9 @@ package hemera.core.environment.ham;
 
 import hemera.core.environment.AbstractTag;
 import hemera.core.environment.ham.key.KHAM;
-import hemera.core.environment.ham.key.KHAMModule;
+import hemera.core.environment.ham.key.KHAMResource;
 import hemera.core.environment.hbm.HBM;
-import hemera.core.environment.hbm.HBMModule;
+import hemera.core.environment.hbm.HBMResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,10 @@ public class HAM extends AbstractTag {
 	 */
 	public final HAMShared shared;
 	/**
-	 * The <code>List</code> of <code>HAMModule</code>
+	 * The <code>List</code> of <code>HAMResource</code>
 	 * the application contains.
 	 */
-	public final List<HAMModule> modules;
+	public final List<HAMResource> resources;
 
 	/**
 	 * Constructor of <code>HAM</code>.
@@ -49,11 +49,11 @@ public class HAM extends AbstractTag {
 	public HAM(final HBM hbm) {
 		this.applicationName = hbm.applicationName;
 		this.shared = (hbm.shared==null) ? null : new HAMShared(hbm.shared);
-		final int size = hbm.modules.size();
-		this.modules = new ArrayList<HAMModule>(size);
+		final int size = hbm.resources.size();
+		this.resources = new ArrayList<HAMResource>(size);
 		for (int i = 0; i < size; i++) {
-			final HBMModule hbmModule = hbm.modules.get(i);
-			this.modules.add(new HAMModule(hbmModule));
+			final HBMResource hbmResource = hbm.resources.get(i);
+			this.resources.add(new HAMResource(hbmResource));
 		}
 	}
 
@@ -69,40 +69,40 @@ public class HAM extends AbstractTag {
 		final NodeList list = docElement.getElementsByTagName(KHAM.Shared.tag);
 		if (list == null || list.getLength() != 1) this.shared = null;
 		else this.shared = new HAMShared((Element)list.item(0));
-		this.modules = this.parseModules(document);
+		this.resources = this.parseResources(document);
 	}
 
 	/**
 	 * Parse the given XML document and retrieve the
-	 * modules list.
+	 * resources list.
 	 * @param document The <code>Document</code> to
 	 * be parsed.
 	 * @return The <code>List</code> of all the parsed
-	 * <code>HAMModule</code>.
+	 * <code>HAMResource</code>.
 	 */
-	private List<HAMModule> parseModules(final Document document) {
+	private List<HAMResource> parseResources(final Document document) {
 		// Verify document tag.
 		final String doctag = document.getDocumentElement().getTagName();
 		if (!doctag.equalsIgnoreCase(KHAM.Root.tag)) {
 			throw new IllegalArgumentException("Invalid document: " + doctag);
 		}
-		// Retrieve modules tag.
-		final NodeList modulestag = document.getElementsByTagName(KHAM.Modules.tag);
-		if (modulestag == null || modulestag.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid HAM file. Must contain one modules tag.");
+		// Retrieve resources tag.
+		final NodeList resourcestag = document.getElementsByTagName(KHAM.Resources.tag);
+		if (resourcestag == null || resourcestag.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid HAM file. Must contain one resources tag.");
 		}
-		final Element modules = (Element)modulestag.item(0);
-		// Parse modules.
-		final NodeList moduleList = modules.getElementsByTagName(KHAMModule.Root.tag);
-		if (moduleList == null || moduleList.getLength() <= 0) {
-			throw new IllegalArgumentException("Invalid HAM file. Must contain at least one module tags.");
+		final Element resources = (Element)resourcestag.item(0);
+		// Parse resources.
+		final NodeList resourceList = resources.getElementsByTagName(KHAMResource.Root.tag);
+		if (resourceList == null || resourceList.getLength() <= 0) {
+			throw new IllegalArgumentException("Invalid HAM file. Must contain at least one resource tags.");
 		}
-		final int length = moduleList.getLength();
-		final ArrayList<HAMModule> store = new ArrayList<HAMModule>(length);
+		final int length = resourceList.getLength();
+		final ArrayList<HAMResource> store = new ArrayList<HAMResource>(length);
 		for (int i = 0; i < length; i++) {
-			final Element moduleElement = (Element)moduleList.item(i);
-			final HAMModule module = new HAMModule(moduleElement);
-			store.add(module);
+			final Element resourceElement = (Element)resourceList.item(i);
+			final HAMResource resource = new HAMResource(resourceElement);
+			store.add(resource);
 		}
 		return store;
 	}
@@ -130,27 +130,27 @@ public class HAM extends AbstractTag {
 			final Element sharedElement = this.shared.toXML(document);
 			root.appendChild(sharedElement);
 		}
-		// Modules tag.
-		final Element modules = this.buildModulesTag(document);
-		root.appendChild(modules);
+		// Resources tag.
+		final Element resources = this.buildResourcesTag(document);
+		root.appendChild(resources);
 		return document;
 	}
 
 	/**
-	 * Create the module list tag.
+	 * Create the resource list tag.
 	 * @param document The <code>Document</code> to
 	 * create the new tags from.
-	 * @return The module list <code>Element</code>.
+	 * @return The resource list <code>Element</code>.
 	 */
-	private Element buildModulesTag(final Document document) {
-		final Element modules = document.createElement(KHAM.Modules.tag);
-		// Create a new tag for each module.
-		final int size = this.modules.size();
+	private Element buildResourcesTag(final Document document) {
+		final Element resources = document.createElement(KHAM.Resources.tag);
+		// Create a new tag for each resource.
+		final int size = this.resources.size();
 		for (int i = 0; i < size; i++) {
-			final HAMModule node = this.modules.get(i);
-			final Element module = node.toXML(document, this.shared);
-			modules.appendChild(module);
+			final HAMResource node = this.resources.get(i);
+			final Element resource = node.toXML(document, this.shared);
+			resources.appendChild(resource);
 		}
-		return modules;
+		return resources;
 	}
 }

@@ -22,9 +22,9 @@ public enum KHBM {
 	 */
 	Shared("shared"),
 	/**
-	 * The modules tag.
+	 * The resources tag.
 	 */
-	Modules("modules");
+	Resources("resources");
 	
 	/**
 	 * The <code>String</code> tag.

@@ -22,9 +22,9 @@ public enum KHAM {
 	 */
 	Shared("shared"),
 	/**
-	 * The modules list tag.
+	 * The resources list tag.
 	 */
-	Modules("modules"),
+	Resources("resources"),
 	/**
 	 * The application directory place-holder that is
 	 * replaced with the proper application directory
