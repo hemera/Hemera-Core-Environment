@@ -94,8 +94,8 @@ public class HBMResource extends AbstractTag {
 	 * given shared configuration is <code>null</code>.
 	 * @throws IOException If reading file failed.
 	 * @throws SAXException If parsing file failed.
-	 * @throws ParserConfigurationException If
-	 * parsing file failed.
+	 * @throws ParserConfigurationException If parsing
+	 * file failed.
 	 * @throws TransformerException If writing the
 	 * XML document failed.
 	 */
