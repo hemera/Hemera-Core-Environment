@@ -29,7 +29,17 @@ public class ConfigSocket {
 	 * bytes.
 	 */
 	public final int bufferSize;
-	
+	/**
+	 * The <code>String</code> optional path to the
+	 * SSL certificate.
+	 */
+	public final String certPath;
+	/**
+	 * The <code>String</code> optional password used
+	 * to protect the certificate public key.
+	 */
+	public final String keyPass;
+
 	/**
 	 * Constructor of <code>ConfigSocket</code>.
 	 */
@@ -37,8 +47,10 @@ public class ConfigSocket {
 		this.port = 80;
 		this.timeout = 200;
 		this.bufferSize = 8192;
+		this.certPath = null;
+		this.keyPass = null;
 	}
-	
+
 	/**
 	 * Constructor of <code>ConfigSocket</code>.
 	 * @param runtime The <code>Element</code> of the
@@ -49,8 +61,10 @@ public class ConfigSocket {
 		this.port = this.parsePort(socket);
 		this.timeout = this.parseTimeout(socket);
 		this.bufferSize = this.parseBufferSize(socket);
+		this.certPath = this.parseCertPath(socket);
+		this.keyPass = this.parseKeyPassword(socket);
 	}
-	
+
 	/**
 	 * Parse the socket tag.
 	 * @param runtime The <code>Element</code> of
@@ -64,7 +78,7 @@ public class ConfigSocket {
 		}
 		return (Element)list.item(0);
 	}
-	
+
 	/**
 	 * Parse the port value.
 	 * @param socket The <code>Element</code> of the
@@ -78,7 +92,7 @@ public class ConfigSocket {
 		}
 		return Integer.valueOf(list.item(0).getTextContent());
 	}
-	
+
 	/**
 	 * Parse the timeout value.
 	 * @param socket The <code>Element</code> of the
@@ -92,7 +106,7 @@ public class ConfigSocket {
 		}
 		return Integer.valueOf(list.item(0).getTextContent());
 	}
-	
+
 	/**
 	 * Parse the buffer size value.
 	 * @param socket The <code>Element</code> of the
@@ -106,7 +120,39 @@ public class ConfigSocket {
 		}
 		return Integer.valueOf(list.item(0).getTextContent());
 	}
-	
+
+	/**
+	 * Parse optional certificate path value.
+	 * @param socket The <code>Element</code> of the
+	 * socket tag to parse from.
+	 * @return The <code>String</code> value.
+	 */
+	private String parseCertPath(final Element socket) {
+		final NodeList list = socket.getElementsByTagName(KConfigSocket.Certificate.tag);
+		if (list == null || list.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid socket configuration. Must contain one certificate tag.");
+		}
+		final String text = list.item(0).getTextContent();
+		if (text == null || text.isEmpty()) return null;
+		else return text;
+	}
+
+	/**
+	 * Parse optional certificate password.
+	 * @param socket The <code>Element</code> of the
+	 * socket tag to parse from.
+	 * @return The <code>String</code> value.
+	 */
+	private String parseKeyPassword(final Element socket) {
+		final NodeList list = socket.getElementsByTagName(KConfigSocket.KeyPassword.tag);
+		if (list == null || list.getLength() != 1) {
+			throw new IllegalArgumentException("Invalid socket configuration. Must contain one certificate password tag.");
+		}
+		final String text = list.item(0).getTextContent();
+		if (text == null || text.isEmpty()) return null;
+		else return text;
+	}
+
 	/**
 	 * Create the socket configuration tag.
 	 * @param document The <code>Document</code> to
@@ -128,6 +174,18 @@ public class ConfigSocket {
 		final Element buffersize = document.createElement(KConfigSocket.BufferSize.tag);
 		buffersize.setTextContent(String.valueOf(this.bufferSize));
 		socket.appendChild(buffersize);
+		// Certificate tag.
+		final Element certPath = document.createElement(KConfigSocket.Certificate.tag);
+		if (this.certPath != null) {
+			certPath.setTextContent(this.certPath);
+		}
+		socket.appendChild(certPath);
+		// Key password tag.
+		final Element keyPass = document.createElement(KConfigSocket.KeyPassword.tag);
+		if (this.keyPass != null) {
+			keyPass.setTextContent(this.keyPass);
+		}
+		socket.appendChild(keyPass);
 		return socket;
 	}
 }

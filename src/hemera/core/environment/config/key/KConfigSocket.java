@@ -24,7 +24,16 @@ public enum KConfigSocket {
 	/**
 	 * The socket buffer size tag.
 	 */
-	BufferSize("buffer-size");
+	BufferSize("buffer-size"),
+	/**
+	 * The optional certificate file path used for SSL
+	 * server connection.
+	 */
+	Certificate("cert"),
+	/**
+	 * The optional certificate public key password.
+	 */
+	KeyPassword("key-password");
 	
 	/**
 	 * The <code>String</code> tag.
