@@ -33,7 +33,11 @@ public enum KConfigSocket {
 	/**
 	 * The optional certificate public key password.
 	 */
-	KeyPassword("key-password");
+	KeyPassword("key-password"),
+	/**
+	 * The file upload file size threshold.
+	 */
+	FileuploadThreshold("fileupload-threshold");
 	
 	/**
 	 * The <code>String</code> tag.
