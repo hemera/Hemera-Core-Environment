@@ -39,10 +39,6 @@ public class ConfigSocket {
 	 * to protect the certificate public key.
 	 */
 	public final String keyPass;
-	/**
-	 * The <code>int</code> file upload threshold size.
-	 */
-	public final int fileuploadThreshold;
 
 	/**
 	 * Constructor of <code>ConfigSocket</code>.
@@ -53,7 +49,6 @@ public class ConfigSocket {
 		this.bufferSize = 8192;
 		this.certPath = null;
 		this.keyPass = null;
-		this.fileuploadThreshold = 10240;
 	}
 
 	/**
@@ -68,7 +63,6 @@ public class ConfigSocket {
 		this.bufferSize = this.parseBufferSize(socket);
 		this.certPath = this.parseCertPath(socket);
 		this.keyPass = this.parseKeyPassword(socket);
-		this.fileuploadThreshold = this.parseFileuploadThreshold(socket);
 	}
 
 	/**
@@ -158,20 +152,6 @@ public class ConfigSocket {
 		if (text == null || text.isEmpty()) return null;
 		else return text;
 	}
-	
-	/**
-	 * Parse optional threshold size.
-	 * @param socket The <code>Element</code> of the
-	 * socket tag to parse from.
-	 * @return The <code>int</code> value.
-	 */
-	private int parseFileuploadThreshold(final Element socket) {
-		final NodeList list = socket.getElementsByTagName(KConfigSocket.FileuploadThreshold.tag);
-		if (list == null || list.getLength() != 1) {
-			throw new IllegalArgumentException("Invalid socket configuration. Must contain one file upload threshold tag.");
-		}
-		return Integer.valueOf(list.item(0).getTextContent());
-	}
 
 	/**
 	 * Create the socket configuration tag.
@@ -206,10 +186,6 @@ public class ConfigSocket {
 			keyPass.setTextContent(this.keyPass);
 		}
 		socket.appendChild(keyPass);
-		// File upload threshold.
-		final Element fileuploadThreshold = document.createElement(KConfigSocket.FileuploadThreshold.tag);
-		fileuploadThreshold.setTextContent(String.valueOf(this.fileuploadThreshold));
-		socket.appendChild(fileuploadThreshold);
 		return socket;
 	}
 }
