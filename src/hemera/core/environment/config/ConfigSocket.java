@@ -45,8 +45,8 @@ public class ConfigSocket {
 	 */
 	public ConfigSocket() {
 		this.port = 80;
-		this.timeout = 200;
-		this.bufferSize = 8192;
+		this.timeout = 51200;
+		this.bufferSize = 524288;
 		this.certPath = null;
 		this.keyPass = null;
 	}
