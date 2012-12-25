@@ -53,7 +53,7 @@ public class ConfigSocket {
 		this.bufferSize = 8192;
 		this.certPath = null;
 		this.keyPass = null;
-		this.fileuploadThreshold = 2097152;
+		this.fileuploadThreshold = 10240;
 	}
 
 	/**
