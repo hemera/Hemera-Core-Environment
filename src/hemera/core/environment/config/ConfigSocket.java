@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
  * the socket configuration.
  *
  * @author Yi Wang (Neakor)
- * @version 1.0.0
+ * @version 1.0.2
  */
 public class ConfigSocket {
 	/**
@@ -45,7 +45,7 @@ public class ConfigSocket {
 	 */
 	public ConfigSocket() {
 		this.port = 80;
-		this.timeout = 51200;
+		this.timeout = 30000;
 		this.bufferSize = 524288;
 		this.certPath = null;
 		this.keyPass = null;
