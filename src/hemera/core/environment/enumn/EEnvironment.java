@@ -11,7 +11,7 @@ public enum EEnvironment {
 	/**
 	 * The current version number.
 	 */
-	Version("1.0.2"),
+	Version("1.0.3"),
 	/**
 	 * The configuration XML file name under the home bin
 	 * directory.
