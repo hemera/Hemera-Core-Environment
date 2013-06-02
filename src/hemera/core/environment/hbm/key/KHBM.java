@@ -6,7 +6,7 @@ package hemera.core.environment.hbm.key;
  * Bundle Model file.
  *
  * @author Yi Wang (Neakor)
- * @version 1.0.0
+ * @version 1.0.4
  */
 public enum KHBM {
 	/**
@@ -17,6 +17,10 @@ public enum KHBM {
 	 * The application name tag.
 	 */
 	ApplicationName("application-name"),
+	/**
+	 * The optional application path tag.
+	 */
+	ApplicationPath("application-path"),
 	/**
 	 * The shared tag.
 	 */

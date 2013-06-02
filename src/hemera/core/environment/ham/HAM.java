@@ -22,13 +22,17 @@ import org.w3c.dom.NodeList;
  * Application Model.
  *
  * @author Yi Wang (Neakor)
- * @version 1.0.0
+ * @version 1.0.4
  */
 public class HAM extends AbstractTag {
 	/**
 	 * The <code>String</code> application name.
 	 */
 	public final String applicationName;
+	/**
+	 * The optional <code>String</code> application path.
+	 */
+	public final String applicationPath;
 	/**
 	 * The optional <code>HAMShared</code> data.
 	 */
@@ -48,6 +52,7 @@ public class HAM extends AbstractTag {
 	 */
 	public HAM(final HBM hbm) {
 		this.applicationName = hbm.applicationName;
+		this.applicationPath = hbm.applicationPath;
 		this.shared = (hbm.shared==null) ? null : new HAMShared(hbm.shared);
 		final int size = hbm.resources.size();
 		this.resources = new ArrayList<HAMResource>(size);
@@ -66,6 +71,7 @@ public class HAM extends AbstractTag {
 		super(document.getDocumentElement(), KHAM.Root.tag);
 		final Element docElement = document.getDocumentElement();
 		this.applicationName = this.parseTagValue(docElement, KHAM.ApplicationName.tag, false);
+		this.applicationPath = this.parseTagValue(docElement, KHAM.ApplicationPath.tag, true);
 		final NodeList list = docElement.getElementsByTagName(KHAM.Shared.tag);
 		if (list == null || list.getLength() != 1) this.shared = null;
 		else this.shared = new HAMShared((Element)list.item(0));

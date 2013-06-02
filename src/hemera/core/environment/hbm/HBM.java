@@ -16,13 +16,17 @@ import org.w3c.dom.NodeList;
  * Hemera Bundle Model of an application.
  *
  * @author Yi Wang (Neakor)
- * @version 1.0.0
+ * @version 1.0.4
  */
 public class HBM extends AbstractTag {
 	/**
 	 * The <code>String</code> application name.
 	 */
 	public final String applicationName;
+	/**
+	 * The optional <code>String</code> application path.
+	 */
+	public final String applicationPath;
 	/**
 	 * The optional <code>HBMShared</code> section.
 	 */
@@ -42,6 +46,7 @@ public class HBM extends AbstractTag {
 		super(document.getDocumentElement(), KHBM.Root.tag);
 		final Element docElement = document.getDocumentElement();
 		this.applicationName = this.parseTagValue(docElement, KHBM.ApplicationName.tag, false);
+		this.applicationPath = this.parseTagValue(docElement, KHBM.ApplicationPath.tag, true);
 		this.shared = this.parseShared(docElement);
 		this.resources = this.parseResources(docElement);
 	}
