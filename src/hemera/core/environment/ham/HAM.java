@@ -131,6 +131,10 @@ public class HAM extends AbstractTag {
 		final Element appName = document.createElement(KHAM.ApplicationName.tag);
 		appName.setTextContent(this.applicationName);
 		root.appendChild(appName);
+		// Application path tag.
+		final Element appPath = document.createElement(KHAM.ApplicationPath.tag);
+		appPath.setTextContent(this.applicationPath);
+		root.appendChild(appPath);
 		// Optional shared tag.
 		if (this.shared != null) {
 			final Element sharedElement = this.shared.toXML(document);
