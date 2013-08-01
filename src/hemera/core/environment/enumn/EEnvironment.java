@@ -5,13 +5,13 @@ package hemera.core.environment.enumn;
  * of various system values used.
  *
  * @author Yi Wang (Neakor)
- * @version 1.0.5
+ * @version 1.0.6
  */
 public enum EEnvironment {
 	/**
 	 * The current version number.
 	 */
-	Version("1.0.5"),
+	Version("1.0.6"),
 	/**
 	 * The configuration XML file name under the home bin
 	 * directory.
